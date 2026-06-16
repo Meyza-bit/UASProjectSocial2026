@@ -1,6 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\BarangController;
+
+// 1. Halaman Beranda Utama Laravel 13
+Route::get('/', function () {
+    return view('welcome');
+});
+
+// 2. Halaman Katalog Daftar Kebutuhan Barang kamu
+Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
+
+// 3. Halaman Form Input Pengiriman Barang (Buatan PM)
+Route::get('/barang/create', [BarangController::class, 'create'])->name('barang.create');
+
+// 4. Handler utuk memproses dan menyimpan data dari form saat disubmit
+Route::post('/barang/store', [BarangController::class, 'store'])->name('barang.store');
+
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProgramController;
@@ -29,3 +46,4 @@ Route::post('/barang', [BarangController::class, 'store'])->name('barang.store')
 Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store')->middleware('auth');
 Route::get('/transparansi', [TransparansiController::class, 'index'])->name('transparansi');
+
