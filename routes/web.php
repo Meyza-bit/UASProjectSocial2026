@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+// Import Controller Transparansi di bagian atas
+use App\Http\Controllers\TransparansiController;
 
 // 1. Rute Utama (Halaman Beranda / Home)
 Route::get('/', function () {
@@ -17,3 +19,7 @@ Route::get('/program', function () {
     // Langsung mengarah ke file program.blade.php
     return view('program', compact('programs'));
 })->name('program.index');
+
+
+// 3. Rute untuk Halaman Transparansi Dana Donasi (Menggunakan Controller)
+Route::get('/transparansi', [TransparansiController::class, 'index'])->name('transparansi.index');
