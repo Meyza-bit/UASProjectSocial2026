@@ -3,11 +3,17 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
-// Memastikan rute mengarah ke halaman utama (simbol /)
+// 1. Rute Utama (Halaman Beranda / Home)
 Route::get('/', function () {
-    // Mengambil data dummy dari database
+    $programs = DB::table('programs')->get();
+    return view('home', compact('programs'));
+})->name('home');
+
+
+// 2. Rute untuk Halaman Katalog Program Donasi (Versi Flat Tanpa Folder)
+Route::get('/program', function () {
     $programs = DB::table('programs')->get();
     
-    // Melempar data ke file home.blade.php
-    return view('home', compact('programs'));
-});
+    // Langsung mengarah ke file program.blade.php
+    return view('program', compact('programs'));
+})->name('program.index');
