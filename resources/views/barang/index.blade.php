@@ -7,7 +7,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {{-- SECTION 1: HERO KAMPANYE DARURAT UTAMA (BANNER PALING MENDESAK) --}}
-        <div class="bg-gradient-to-br from-red-50 to-orange-50 border border-red-200/60 rounded-3xl p-6 lg:p-8 grid lg:grid-cols-12 gap-8 items-center shadow-sm">
+        <div class="bg-linear-to-br from-red-50 to-orange-50 border border-red-200/60 rounded-3xl p-6 lg:p-8 grid lg:grid-cols-12 gap-8 items-center shadow-sm">
             <div class="lg:col-span-4 relative">
                 <span class="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider animate-pulse z-10">
                     🚨 DARURAT MENDESAK

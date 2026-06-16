@@ -38,7 +38,7 @@
                 <!-- Menu Navigasi Sesuai Branch GitHub (image_3e4316.png) -->
                 <div class="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-600">
                     <a href="{{ Route::has('home') ? route('home') : '/' }}" class="hover:text-emerald-800 transition">Beranda</a>
-                    
+
                     <a href="{{ Route::has('program.index') ? route('program.index') : '#program-pilihan' }}" class="hover:text-emerald-800 transition">Program</a>
                     
                     <a href="{{ Route::has('barang.create') ? route('barang.create') : '#' }}" class="text-emerald-800 hover:text-emerald-900 transition">Kirim Barang</a>
@@ -62,7 +62,7 @@
     </nav>
 
     {{-- KONTEN UTAMA --}}
-    <main class="flex-grow">
+    <main class="grow">
         @yield('content')
     </main>
 
