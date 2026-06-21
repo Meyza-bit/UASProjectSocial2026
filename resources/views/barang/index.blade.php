@@ -39,13 +39,14 @@
                         </div>
                     </div>
                     <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white text-center text-xs font-bold px-6 py-3 rounded-xl transition shadow-md whitespace-nowrap">
-                        Bantu Sekarang
+                    Bantu Sekarang
                     </a>
                 </div>
             </div>
         </div>
 
         {{-- SECTION 2: HEADER KATALOG & FILTER KATEGORI --}}
+
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-5">
             <div>
                 <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Daftar Program yang Membutuhkan</h1>
@@ -65,6 +66,8 @@
                 </button>
             </div>
         </div>
+
+        
 
         {{-- PHP MANUAL DUMMY DATA (Link Gambar Sudah Diperbaiki & Stabil) --}}
         @php

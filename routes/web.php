@@ -16,3 +16,5 @@ Route::get('/barang/create', [BarangController::class, 'create'])->name('barang.
 
 // 4. Handler untuk memproses dan menyimpan data dari form saat disubmit
 Route::post('/barang/store', [BarangController::class, 'store'])->name('barang.store');
+
+Route::get('/barang/sukses/{id}', [BarangController::class, 'sukses'])->name('barang.sukses');
