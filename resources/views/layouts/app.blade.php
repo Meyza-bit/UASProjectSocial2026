@@ -48,7 +48,28 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <a href="#" class="text-xs font-bold text-emerald-800 hover:text-emerald-950 transition hidden sm:block">Masuk</a>
+                    {{-- Bagian Autentikasi Login Dinamis --}}
+                    @auth
+                        {{-- Tampilan jika user sudah berhasil login --}}
+                        <div class="flex items-center gap-3 hidden sm:flex">
+                            <span class="text-xs font-semibold text-slate-600">
+                                Halo, <strong class="text-emerald-950">{{ Auth::user()->name }}</strong>
+                            </span>
+                            
+                            <form action="{{ route('logout') }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="text-xs font-bold text-red-600 hover:text-red-800 transition">
+                                    Keluar
+                                </button>
+                            </form>
+                        </div>
+                    @else
+                        {{-- Tampilan jika belum login --}}
+                        <a href="{{ Route::has('login') ? route('login') : '/login' }}" class="text-xs font-bold text-emerald-800 hover:text-emerald-950 transition hidden sm:block">
+                            Masuk
+                        </a>
+                    @endauth
+
                     <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}" class="bg-emerald-800 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition shadow-sm">
                         Mulai Donasi
                     </a>
