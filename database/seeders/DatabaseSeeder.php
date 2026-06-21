@@ -2,24 +2,28 @@
 
 namespace Database\Seeders;
 
+<<<<<<< feature/halaman-barang
 use App\Models\User;
 use App\Models\Campaign;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+=======
+>>>>>>> main
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
+<<<<<<< feature/halaman-barang
         // 1. Membuat data User bawaan (tidak apa-apa dibiarkan)
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+=======
+        // Memanggil seeder data dummy Mariberbagi
+        $this->call([
+            ProgramDonasiSeeder::class,
+>>>>>>> main
         ]);
 
         // 2. Membuat data contoh Kampanye Donasi langsung di sini
