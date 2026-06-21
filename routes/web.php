@@ -9,7 +9,6 @@ Route::get('/', function () {
     return view('home', compact('programs'));
 })->name('home');
 
-
 // 2. Rute untuk Halaman Katalog Program Donasi (Versi Flat Tanpa Folder)
 Route::get('/program', function () {
     $programs = DB::table('programs')->get();
