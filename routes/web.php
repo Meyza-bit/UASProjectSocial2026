@@ -11,7 +11,6 @@ use App\Http\Controllers\TransparansiController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-<<<<<<< HEAD
 // 2. Rute untuk Halaman Katalog Program Donasi (Versi Flat Tanpa Folder)
 Route::get('/program', function () {
     $programs = DB::table('programs')->get();
@@ -19,14 +18,13 @@ Route::get('/program', function () {
     // Langsung mengarah ke file program.blade.php
     return view('program', compact('programs'));
 })->name('program.index');
-=======
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
 });
-<<<<<<< HEAD
 
 // 2. Halaman Katalog Daftar Kebutuhan Barang kamu
 Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
@@ -55,7 +53,6 @@ Route::post('/donasi/selesai', [DonasiController::class, 'selesai'])->name('dona
 
 // RUTE BARU: halaman terima kasih setelah bukti pembayaran berhasil diupload
 Route::get('/donasi/terimakasih/{id}', [DonasiController::class, 'terimakasih'])->name('donasi.terimakasih');
-=======
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::get('/program', [ProgramController::class, 'index'])->name('program.index');
@@ -68,5 +65,4 @@ Route::post('/barang', [BarangController::class, 'store'])->name('barang.store')
 Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store')->middleware('auth');
 Route::get('/transparansi', [TransparansiController::class, 'index'])->name('transparansi');
->>>>>>> main
->>>>>>> b7353f3553a2431958ae61ac6f456dbf770a2110
+
