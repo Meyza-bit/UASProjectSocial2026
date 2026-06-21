@@ -1,10 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
-use App\Http\Controllers\BarangController;
-use App\Http\Controllers\DonasiController;
-=======
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProgramController;
@@ -12,10 +8,18 @@ use App\Http\Controllers\DonasiController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\TransparansiController;
->>>>>>> main
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+<<<<<<< HEAD
+// 2. Rute untuk Halaman Katalog Program Donasi (Versi Flat Tanpa Folder)
+Route::get('/program', function () {
+    $programs = DB::table('programs')->get();
+    
+    // Langsung mengarah ke file program.blade.php
+    return view('program', compact('programs'));
+})->name('program.index');
+=======
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
@@ -65,3 +69,4 @@ Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.in
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store')->middleware('auth');
 Route::get('/transparansi', [TransparansiController::class, 'index'])->name('transparansi');
 >>>>>>> main
+>>>>>>> b7353f3553a2431958ae61ac6f456dbf770a2110
