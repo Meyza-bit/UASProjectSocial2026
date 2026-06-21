@@ -10,10 +10,9 @@ return new class extends Migration
     {
         Schema::create('feedback', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_user')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('id_program')->constrained('program_donasi')->cascadeOnDelete();
-            $table->unsignedTinyInteger('rating'); // 1–5
-            $table->text('isi');
+            $table->string('nama');
+            $table->tinyInteger('rating'); // 1-5
+            $table->text('ulasan');
             $table->timestamps();
         });
     }
