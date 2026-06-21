@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'Mari Berbagi')</title>
     
-<<<<<<< feature/halaman-barang
+<<<<<<< HEAD
     <!-- Fonts -->
 =======
 >>>>>>> main
@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<<<<<<< feature/halaman-barang
+<<<<<<< HEAD
     <!-- Tailwind CSS (Vite / Bawaan Laravel) -->
 =======
 >>>>>>> main
@@ -33,7 +33,7 @@
     <nav class="bg-white border-b border-slate-200/80 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-<<<<<<< feature/halaman-barang
+<<<<<<< HEAD
                 <!-- Logo -->
 =======
 >>>>>>> main
@@ -44,18 +44,29 @@
                     </a>
                 </div>
 
-<<<<<<< feature/halaman-barang
+<<<<<<< HEAD
                 <!-- Menu Navigasi Sesuai Branch GitHub (image_3e4316.png) -->
                 <div class="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-600">
-                    <a href="{{ Route::has('home') ? route('home') : '/' }}" class="hover:text-emerald-800 transition">Beranda</a>
+                    <a href="{{ Route::has('home') ? route('home') : '/' }}" 
+                        class="{{ request()->routeIs('home') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Beranda</a>
 
-                    <a href="{{ Route::has('program.index') ? route('program.index') : '#program-pilihan' }}" class="hover:text-emerald-800 transition">Program</a>
-                    
-                    <a href="{{ Route::has('barang.create') ? route('barang.create') : '#' }}" class="text-emerald-800 hover:text-emerald-900 transition">Kirim Barang</a>
-                    
-                    <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}" class="hover:text-emerald-800 transition">Donasi Dana</a>
-                    
-                    <a href="{{ Route::has('transparansi') ? route('transparansi') : '#' }}" class="hover:text-emerald-800 transition">Transparansi</a>
+                    <a href="{{ Route::has('program.index') ? route('program.index') : '#program-pilihan' }}" 
+                        class="{{ request()->routeIs('program.*') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Program</a>
+        
+                    <a href="{{ route('barang.create') }}" 
+                        class="{{ request()->routeIs('barang.*') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Kirim Barang</a>
+        
+                    <a href="{{ route('donasi.create') }}" 
+                        class="{{ request()->routeIs('donasi.*') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Donasi Dana</a>
+        
+                    <a href="{{ Route::has('transparansi') ? route('transparansi') : '#' }}" 
+                        class="{{ request()->routeIs('transparansi') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Transparansi</a>
+        
+                    <a href="{{ Route::has('feedback.index') ? route('feedback.index') : '#' }}" 
+                        class="{{ request()->routeIs('feedback.*') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Feedback</a>
+                </div>
+
+                <!-- Tombol Aksi Masuk / Daftar -->
 =======
                 <div class="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-600">
                     <a href="{{ Route::has('home') ? route('home') : '/' }}" class="text-emerald-800 hover:text-emerald-900 transition">Beranda</a>
@@ -68,17 +79,34 @@
                     
                     {{-- Ini yang sudah diperbaiki rutenya jadi transparansi.index --}}
                     <a href="{{ Route::has('transparansi.index') ? route('transparansi.index') : '/transparansi' }}" class="hover:text-emerald-800 transition">Transparansi</a>
->>>>>>> main
                     
                     <a href="{{ Route::has('feedback.index') ? route('feedback.index') : '#' }}" class="hover:text-emerald-800 transition">Feedback</a>
                 </div>
 
-<<<<<<< feature/halaman-barang
-                <!-- Tombol Aksi Masuk / Daftar -->
-=======
 >>>>>>> main
                 <div class="flex items-center gap-4">
-                    <a href="#" class="text-xs font-bold text-emerald-800 hover:text-emerald-950 transition hidden sm:block">Masuk</a>
+                    {{-- Bagian Autentikasi Login Dinamis --}}
+                    @auth
+                        {{-- Tampilan jika user sudah berhasil login --}}
+                        <div class="flex items-center gap-3 hidden sm:flex">
+                            <span class="text-xs font-semibold text-slate-600">
+                                Halo, <strong class="text-emerald-950">{{ Auth::user()->name }}</strong>
+                            </span>
+                            
+                            <form action="{{ route('logout') }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="text-xs font-bold text-red-600 hover:text-red-800 transition">
+                                    Keluar
+                                </button>
+                            </form>
+                        </div>
+                    @else
+                        {{-- Tampilan jika belum login --}}
+                        <a href="{{ Route::has('login') ? route('login') : '/login' }}" class="text-xs font-bold text-emerald-800 hover:text-emerald-950 transition hidden sm:block">
+                            Masuk
+                        </a>
+                    @endauth
+
                     <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}" class="bg-emerald-800 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition shadow-sm">
                         Mulai Donasi
                     </a>
@@ -88,7 +116,7 @@
     </nav>
 
     {{-- KONTEN UTAMA --}}
-<<<<<<< feature/halaman-barang
+<<<<<<< HEAD
     <main class="grow">
 =======
     <main class="flex-grow">
