@@ -1,36 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProgramController;
-use App\Http\Controllers\DonasiController;
-use App\Http\Controllers\BarangController;
 use App\Http\Controllers\FeedbackController;
-use App\Http\Controllers\TransparansiController;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
-// 2. Rute untuk Halaman Katalog Program Donasi (Versi Flat Tanpa Folder)
-Route::get('/program', function () {
-    $programs = DB::table('programs')->get();
-    
-    // Langsung mengarah ke file program.blade.php
-    return view('program', compact('programs'));
-})->name('program.index');
-
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
+Route::get('/', function () {
+    return view('welcome');
 });
 
-// 2. Halaman Katalog Daftar Kebutuhan Barang kamu
-Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
 
-// 3. Halaman Form Input Pengiriman Barang (Buatan PM)
-Route::get('/barang/create', [BarangController::class, 'create'])->name('barang.create');
+Route::get('/feedback', [FeedbackController::class, 'index'])
+    ->name('feedback.index');
 
 // 4. Handler untuk memproses dan menyimpan data dari form saat disubmit
 Route::post('/barang/store', [BarangController::class, 'store'])->name('barang.store');
@@ -65,3 +44,5 @@ Route::post('/barang', [BarangController::class, 'store'])->name('barang.store')
 Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store')->middleware('auth');
 Route::get('/transparansi', [TransparansiController::class, 'index'])->name('transparansi');
+Route::post('/feedback', [FeedbackController::class, 'store'])
+    ->name('feedback.store');
