@@ -22,8 +22,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Jalankan seeder lain
-        $this->call([
-            FeedbackSeeder::class,
-        ]);
+       $this->call([
+    ProgramDonasiSeeder::class,
+    FeedbackSeeder::class,
+]);
     }
 }
