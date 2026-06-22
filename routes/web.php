@@ -1,30 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-feature/halaman-barang
-
-use App\Http\Controllers\BarangController;
-
-// 1. Halaman Beranda Utama Laravel 13
-Route::get('/', function () {
-    return view('welcome');
-});
-
-// 2. Halaman Katalog Daftar Kebutuhan Barang kamu
-Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
-
-// 3. Halaman Form Input Pengiriman Barang (Buatan PM)
-Route::get('/barang/create', [BarangController::class, 'create'])->name('barang.create');
-
-
-// 4. Handler untuk memproses dan menyimpan data dari form saat disubmit
-Route::post('/barang/store', [BarangController::class, 'store'])->name('barang.store');
-
-Route::get('/barang/sukses/{id}', [BarangController::class, 'sukses'])->name('barang.sukses');
-=======
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\Api\ProgramController;
 use App\Http\Controllers\DonasiController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\FeedbackController;
@@ -60,6 +39,7 @@ Route::get('/donasi/terimakasih/{id}', [DonasiController::class, 'terimakasih'])
 Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
 Route::get('/barang/create', [BarangController::class, 'create'])->name('barang.create');
 Route::post('/barang/store', [BarangController::class, 'store'])->name('barang.store');
+Route::get('/barang/sukses/{id}', [BarangController::class, 'sukses'])->name('barang.sukses');
 
 // ===== Modul Feedback =====
 Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
@@ -67,4 +47,3 @@ Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.s
 
 // ===== Modul Transparansi =====
 Route::get('/transparansi', [TransparansiController::class, 'index'])->name('transparansi');
- main
