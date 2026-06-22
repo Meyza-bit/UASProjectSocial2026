@@ -1,66 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-feature/halaman-barang
-
-use App\Http\Controllers\BarangController;
-
-// 1. Halaman Beranda Utama Laravel 13
-Route::get('/', function () {
-    return view('welcome');
-});
-
-// 2. Halaman Katalog Daftar Kebutuhan Barang kamu
-Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
-
-// 3. Halaman Form Input Pengiriman Barang (Buatan PM)
-Route::get('/barang/create', [BarangController::class, 'create'])->name('barang.create');
-
-
-// 4. Handler untuk memproses dan menyimpan data dari form saat disubmit
-Route::post('/barang/store', [BarangController::class, 'store'])->name('barang.store');
-
-Route::get('/barang/sukses/{id}', [BarangController::class, 'sukses'])->name('barang.sukses');
-=======
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\DonasiController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\TransparansiController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
-Route::get('/feedback', [FeedbackController::class, 'index'])
-    ->name('feedback.index');
-
-// 4. Handler untuk memproses dan menyimpan data dari form saat disubmit
-Route::post('/barang/store', [BarangController::class, 'store'])->name('barang.store');
-
-// ===== Modul Donasi =====
-Route::get('/donasi/create', [DonasiController::class, 'create'])->name('donasi.create');
-
-Route::get('/donasi/pembayaran', [DonasiController::class, 'pembayaran'])->name('donasi.pembayaran');
-
-// Rute untuk memproses data dari form donasi (POST)
-Route::post('/donasi/store', [DonasiController::class, 'store'])->name('donasi.store');
-
-Route::post('/donasi/konfirmasi', [DonasiController::class, 'konfirmasi'])->name('donasi.konfirmasi');
-
-// FIX: typo "pembayran" diperbaiki jadi "pembayaran-instruksi"
-Route::get('/donasi/pembayaran-instruksi', [DonasiController::class, 'instruksi'])->name('donasi.instruksi');
-
-// RUTE BARU: dipanggil saat user klik "Saya Sudah Melakukan Pembayaran"
-Route::post('/donasi/selesai', [DonasiController::class, 'selesai'])->name('donasi.selesai');
-
-// RUTE BARU: halaman terima kasih setelah bukti pembayaran berhasil diupload
-Route::get('/donasi/terimakasih/{id}', [DonasiController::class, 'terimakasih'])->name('donasi.terimakasih');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
-
-Route::get('/program', [ProgramController::class, 'index'])->name('program.index');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // ===== Auth =====
@@ -91,6 +39,7 @@ Route::get('/donasi/terimakasih/{id}', [DonasiController::class, 'terimakasih'])
 Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
 Route::get('/barang/create', [BarangController::class, 'create'])->name('barang.create');
 Route::post('/barang/store', [BarangController::class, 'store'])->name('barang.store');
+Route::get('/barang/sukses/{id}', [BarangController::class, 'sukses'])->name('barang.sukses');
 
 // ===== Modul Feedback =====
 Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
@@ -98,6 +47,3 @@ Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.s
 
 // ===== Modul Transparansi =====
 Route::get('/transparansi', [TransparansiController::class, 'index'])->name('transparansi');
-
-Route::post('/feedback', [FeedbackController::class, 'store'])
-    ->name('feedback.store');
