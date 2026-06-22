@@ -3,22 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <title>Feedback Donatur</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gray-100">
-    @yield('content')
-=======
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'Mari Berbagi')</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS (Vite / Bawaan Laravel) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @yield('styles')
@@ -34,7 +25,6 @@
     <nav class="bg-white border-b border-slate-200/80 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <!-- Logo -->
                 <div class="flex items-center gap-2">
                     <span class="text-xl">🤝</span>
                     <a href="{{ Route::has('home') ? route('home') : '/' }}" class="text-xl font-extrabold text-emerald-950 tracking-tight">
@@ -42,7 +32,6 @@
                     </a>
                 </div>
 
-                <!-- Menu Navigasi -->
                 <div class="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-600">
                     <a href="{{ Route::has('home') ? route('home') : '/' }}"
                         class="{{ request()->routeIs('home') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Beranda</a>
@@ -56,7 +45,6 @@
                     <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}"
                         class="{{ request()->routeIs('donasi.*') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Donasi Dana</a>
 
-                    {{-- Sudah pakai route name transparansi.index --}}
                     <a href="{{ Route::has('transparansi.index') ? route('transparansi.index') : '/transparansi' }}"
                         class="{{ request()->routeIs('transparansi.*') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Transparansi</a>
 
@@ -64,7 +52,6 @@
                         class="{{ request()->routeIs('feedback.*') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Feedback</a>
                 </div>
 
-                <!-- Tombol Aksi Masuk / Daftar -->
                 <div class="flex items-center gap-4">
                     {{-- Bagian Autentikasi Login Dinamis --}}
                     @auth
@@ -109,6 +96,5 @@
         </div>
     </footer>
 
->>>>>>> 101a67dead71bdebb3a19371d7412044bf1d1afe
 </body>
 </html>
