@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\Api\ProgramController;
+use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\DonasiController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\FeedbackController;
