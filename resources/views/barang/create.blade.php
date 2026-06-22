@@ -50,7 +50,7 @@
                     </div>
                 </div>
 
-                {{-- KATEGORI --}}
+               
                 {{-- KATEGORI --}}
 <div class="bg-white rounded-2xl border border-slate-200/60 p-6 shadow-sm space-y-4">
     <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">📋 Kategori Barang</h3>
@@ -178,14 +178,6 @@
         }
     }
 
-    function selectCat(el) {
-        document.querySelectorAll('.cat-card').forEach(c => {
-            c.className = 'cat-card border border-slate-200 rounded-xl p-4 text-center cursor-pointer hover:bg-slate-50 transition';
-            c.querySelector('.cat-name').className = 'cat-name text-xs text-slate-700';
-        });
-        el.className = 'cat-card border border-emerald-600 bg-emerald-50/40 text-emerald-900 rounded-xl p-4 text-center cursor-pointer transition font-semibold';
-        el.querySelector('.cat-name').className = 'cat-name text-xs';
-        document.getElementById('inputKategori').value = el.querySelector('.cat-name').textContent;
-    }
+    
     </script>
 @endsection
