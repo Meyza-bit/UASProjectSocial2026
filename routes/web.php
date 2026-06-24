@@ -39,6 +39,7 @@ Route::get('/donasi/terimakasih/{id}', [DonasiController::class, 'terimakasih'])
 Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
 Route::get('/barang/create', [BarangController::class, 'create'])->name('barang.create');
 Route::post('/barang/store', [BarangController::class, 'store'])->name('barang.store');
+Route::get('/barang/sukses/{id}', [BarangController::class, 'sukses'])->name('barang.sukses');
 
 // ===== Modul Feedback =====
 Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
