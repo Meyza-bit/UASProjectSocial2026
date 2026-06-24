@@ -1,15 +1,4 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback Donatur</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gray-100">
-    @yield('content')
-=======
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -113,6 +102,5 @@
         </div>
     </footer>
 
->>>>>>> 101a67dead71bdebb3a19371d7412044bf1d1afe
 </body>
 </html>

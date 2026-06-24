@@ -4,44 +4,60 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Feedback;
+use App\Models\User;
 
 class FeedbackSeeder extends Seeder
 {
     public function run(): void
     {
+        $user = User::firstOrCreate(
+            ['email' => 'feedback@example.com'],
+            ['name' => 'User Feedback', 'password' => bcrypt('password')]
+        );
+
         Feedback::insert([
             [
-                'nama' => 'Budi Santoso',
+                'user_id' => $user->id,
+                'program_donasi_id' => null,
+                'judul' => 'Budi Santoso',
                 'rating' => 5,
-                'ulasan' => 'Program sangat transparan dan membantu korban bencana.',
+                'isi' => 'Program sangat transparan dan membantu korban bencana.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama' => 'Siti Rahma',
+                'user_id' => $user->id,
+                'program_donasi_id' => null,
+                'judul' => 'Siti Rahma',
                 'rating' => 4,
-                'ulasan' => 'Penyaluran bantuan cepat dan terpercaya.',
+                'isi' => 'Penyaluran bantuan cepat dan terpercaya.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama' => 'Andi Saputra',
+                'user_id' => $user->id,
+                'program_donasi_id' => null,
+                'judul' => 'Andi Saputra',
                 'rating' => 3,
-                'ulasan' => 'Cukup baik, semoga semakin berkembang.',
+                'isi' => 'Cukup baik, semoga semakin berkembang.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama' => 'Rina Putri',
+                'user_id' => $user->id,
+                'program_donasi_id' => null,
+                'judul' => 'Rina Putri',
                 'rating' => 5,
-                'ulasan' => 'Saya puas dengan laporan transparansi donasi.',
+                'isi' => 'Saya puas dengan laporan transparansi donasi.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama' => 'Dewi Lestari',
+                'user_id' => $user->id,
+                'program_donasi_id' => null,
+                'judul' => 'Dewi Lestari',
                 'rating' => 4,
-                'ulasan' => 'Sangat membantu masyarakat yang membutuhkan.',
+                'isi' => 'Sangat membantu masyarakat yang membutuhkan.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
