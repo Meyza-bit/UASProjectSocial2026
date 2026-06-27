@@ -41,9 +41,24 @@ class ProgramDonasi extends Model
         return $this->hasMany(DonasiDana::class, 'id_program', 'id');
     }
 
+    public function donasiDanas()
+    {
+        return $this->donasiDana();
+    }
+
+    public function donasiBarangs()
+    {
+        return $this->hasMany(DonasiBarang::class, 'program_donasi_id');
+    }
+
     public function feedback()
     {
-        return $this->hasMany(Feedback::class, 'id_program', 'id');
+        return $this->hasMany(Feedback::class, 'program_donasi_id');
+    }
+
+    public function feedbacks()
+    {
+        return $this->feedback();
     }
 
     public function getPresentaseAttribute()

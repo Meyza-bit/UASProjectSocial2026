@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class DonasiBarang extends Model
+{
+    use HasFactory;
+
+    protected $table = 'donasi_barangs';
+
+    protected $fillable = [
+        'program_donasi_id',
+        'user_id',
+        'nama_pengirim',
+        'alamat_pengirim',
+        'nomor_telepon',
+        'status',
+        'catatan',
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
+    // ==================== RELASI ====================
+
+    // Belongs to ProgramDonasi (BE1 punya ini)
+    public function programDonasi()
+    {
+        return $this->belongsTo(ProgramDonasi::class, 'program_donasi_id');
+    }
+
+    // Belongs to User
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    // Has many ItemBarang
+    public function itemBarangs()
+    {
+        return $this->hasMany(ItemBarang::class, 'donasi_barang_id');
+    }
+
+
+    // Filter berdasarkan status
+    public function scopeStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
+
+    // Filter pending
+    public function scopePending($query)
+    {
+        return $query->where('status', 'pending');
+    }
+
+    // Filter diterima
+    public function scopeDiterima($query)
+    {
+        return $query->where('status', 'diterima');
+    }
+}
