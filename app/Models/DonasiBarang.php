@@ -9,7 +9,7 @@ class DonasiBarang extends Model
 {
     use HasFactory;
 
-    protected $table = 'donasi_barangs';
+    protected $table = 'donasi_barang';
 
     protected $fillable = [
         'program_donasi_id',
@@ -41,7 +41,7 @@ class DonasiBarang extends Model
     }
 
     // Has many ItemBarang
-    public function itemBarangs()
+    public function itemBarang()
     {
         return $this->hasMany(ItemBarang::class, 'donasi_barang_id');
     }
