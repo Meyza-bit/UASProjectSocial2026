@@ -2,93 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProgramDonasi;
 use App\Models\DonasiDana;
 use App\Models\DonasiBarang;
-use App\Models\Feedback;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 
 class TransparansiController extends Controller
 {
-    /**
-     * GET /api/transparansi
-     * Ringkasan total transparansi semua program
-     */
-    public function index(): JsonResponse
+    public function index()
     {
-        $programs = ProgramDonasi::withCount([
-            'donasiDanas',
-            'donasiBarangs',
-            'feedbacks',
-        ])->withSum('donasiDanas', 'nominal')->get();
+        $donasiDana = DonasiDana::with(['user', 'program', 'targetPenerima'])
+            ->where('status', 'verified')
+            ->latest()
+            ->get();
+
+        $donasiBarang = DonasiBarang::with(['user', 'programDonasi', 'itemBarangs'])
+            ->where('status', 'diterima')
+            ->latest()
+            ->get();
+
+        $totalDana = $donasiDana->sum('nominal');
+        $jumlahProgram = $donasiDana->pluck('id_program')->unique()->count();
 
         $ringkasan = [
-            'total_program'       => $programs->count(),
-            'total_donasi_dana'   => $programs->sum('donasi_danas_sum_nominal'),
-            'total_donasi_barang' => $programs->sum('donasi_barangs_count'),
-            'total_feedback'      => $programs->sum('feedbacks_count'),
-            'programs'            => $programs,
+            'total_donasi'    => 'Rp ' . number_format($totalDana, 0, ',', '.'),
+            'dana_disalurkan' => 'Rp ' . number_format($totalDana, 0, ',', '.'),
+            'program_dibantu' => $jumlahProgram,
+            'donatur_aktif'   => $donasiDana->count() + $donasiBarang->count(),
         ];
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Data transparansi berhasil diambil',
-            'data'    => $ringkasan,
-        ], 200);
-    }
+        $riwayat_penyaluran = $donasiDana->map(function ($d) {
+            return [
+                'tanggal'  => $d->created_at ? $d->created_at->format('d M Y') : '-',
+                'program'  => $d->program ? $d->program->judul : '-',
+                'kategori' => $d->program ? $d->program->kategori : '-',
+                'jumlah'   => 'Rp ' . number_format($d->nominal, 0, ',', '.'),
+                'penerima' => $d->targetPenerima ? $d->targetPenerima->nama_target : '-',
+                'status'   => 'Terverifikasi',
+            ];
+        })->toArray();
 
-    /**
-     * GET /api/transparansi/{program_id}
-     * Detail transparansi satu program
-     */
-    public function show(string $programId): JsonResponse
-    {
-        $program = ProgramDonasi::find($programId);
-
-        if (!$program) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Program tidak ditemukan',
-            ], 404);
-        }
-
-        // Donasi dana untuk program ini
-        $donasiDana = DonasiDana::where('id_program', $programId)
-            ->select('id', 'id_user', 'id_program', 'nominal', 'metode_bayar', 'status', 'created_at')
-            ->with('user:id,name')
-            ->latest()
-            ->get();
-
-        // Donasi barang untuk program ini
-        $donasiBarang = DonasiBarang::where('program_donasi_id', $programId)
-            ->select('id', 'user_id', 'nama_pengirim', 'status', 'created_at')
-            ->with(['user:id,name', 'itemBarangs'])
-            ->latest()
-            ->get();
-
-        // Feedback untuk program ini
-        $feedbacks = Feedback::where('program_donasi_id', $programId)
-            ->select('id', 'user_id', 'judul', 'isi', 'rating', 'created_at')
-            ->with('user:id,name')
-            ->latest()
-            ->get();
-
-        $data = [
-            'program'             => $program,
-            'total_dana_masuk'    => $donasiDana->where('status', 'verified')->sum('nominal'),
-            'total_donatur_dana'  => $donasiDana->count(),
-            'total_donatur_barang'=> $donasiBarang->count(),
-            'rata_rata_rating'    => round($feedbacks->avg('rating'), 1),
-            'donasi_dana'         => $donasiDana,
-            'donasi_barang'       => $donasiBarang,
-            'feedbacks'           => $feedbacks,
-        ];
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Detail transparansi program berhasil diambil',
-            'data'    => $data,
-        ], 200);
+        return view('transparansi', compact('ringkasan', 'riwayat_penyaluran'));
     }
 }
