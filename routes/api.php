@@ -1,23 +1,35 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FeedbackController;
-use App\Http\Controllers\TransparansiController;
+use App\Http\Controllers\Api\ProgramController;
+use App\Http\Controllers\Api\DonasiController;
+use App\Http\Controllers\Api\FeedbackController;
+use App\Http\Controllers\Api\TransparansiController;
 
 // ============================================================
 // ROUTE PUBLIK (tidak perlu login)
 // ============================================================
-Route::get('/transparansi', [TransparansiController::class, 'index']);
-Route::get('/transparansi/{program_id}', [TransparansiController::class, 'show']);
 
-Route::get('/feedbacks', [FeedbackController::class, 'index']);
-Route::get('/feedbacks/{id}', [FeedbackController::class, 'show']);
+// Program Donasi
+Route::get('/program', [ProgramController::class, 'index']);
+Route::get('/program/{id}', [ProgramController::class, 'show']);
+Route::get('/program/kategori/{kategori}', [ProgramController::class, 'filterKategori']);
+Route::get('/target-penerima', [ProgramController::class, 'targetPenerima']);
+
+// Donasi
+Route::get('/donasi', [DonasiController::class, 'index']);
+
+// Feedback
+Route::get('/feedback', [FeedbackController::class, 'index']);
+
+// Transparansi
+Route::get('/transparansi', [TransparansiController::class, 'index']);
 
 // ============================================================
 // ROUTE PROTECTED (perlu login - Sanctum)
 // ============================================================
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/feedbacks', [FeedbackController::class, 'store']);
-    Route::put('/feedbacks/{id}', [FeedbackController::class, 'update']);
-    Route::delete('/feedbacks/{id}', [FeedbackController::class, 'destroy']);
+    Route::post('/donasi/dana', [DonasiController::class, 'storeDana']);
+    Route::post('/donasi/barang', [DonasiController::class, 'storeBarang']);
+    Route::post('/feedback', [FeedbackController::class, 'store']);
 });
