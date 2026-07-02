@@ -72,7 +72,7 @@ class LoginController extends Controller
     public function showRegister()
     {
         // Mengarah ke folder resources/views/auth/register.blade.php
-        return view('auth.register');
+        return view('login.register');
     }
 
     /**
