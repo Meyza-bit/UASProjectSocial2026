@@ -11,9 +11,6 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         // Akun Admin
@@ -24,16 +21,23 @@ class DatabaseSeeder extends Seeder
             'role'     => 'admin',
         ]);
 
-        // User dummy
-        User::factory()->create([
-            'name'  => 'Test User',
-            'email' => 'test@example.com',
-            'role'  => 'user',
+        // Akun User Biasa
+        User::create([
+            'name'     => 'User',
+            'email'    => 'user@donasi.com',
+            'password' => Hash::make('password'),
+            'role'     => 'user',
         ]);
 
         // Jalankan seeder lain
         $this->call([
-            FeedbackSeeder::class,
+        TargetPenerimaSeeder::class,
+        ProgramDonasiSeeder::class,
+        UserSeeder::class,
+        DonasiDanaSeeder::class,
+        DonasiApiSeeder::class,
+        BarangSeeder::class,
+        FeedbackSeeder::class,
         ]);
     }
 }
