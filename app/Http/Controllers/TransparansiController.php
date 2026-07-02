@@ -14,7 +14,7 @@ class TransparansiController extends Controller
             ->latest()
             ->get();
 
-        $donasiBarang = DonasiBarang::with(['user', 'programDonasi', 'itemBarangs'])
+        $donasiBarang = DonasiBarang::with(['user', 'programDonasi', 'itemBarang'])
             ->where('status', 'diterima')
             ->latest()
             ->get();

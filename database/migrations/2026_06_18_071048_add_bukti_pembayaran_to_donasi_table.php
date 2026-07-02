@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('donasis', function (Blueprint $table) {
+        Schema::table('donasi', function (Blueprint $table) {
             // Menyimpan path file bukti transfer yang diupload donatur
             $table->string('bukti_pembayaran')->nullable()->after('metode_pembayaran');
         });
@@ -16,7 +16,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::table('donasis', function (Blueprint $table) {
+        Schema::table('donasi', function (Blueprint $table) {
             $table->dropColumn('bukti_pembayaran');
         });
     }

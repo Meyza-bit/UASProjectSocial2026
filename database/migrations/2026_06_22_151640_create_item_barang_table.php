@@ -8,9 +8,9 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('item_barangs', function (Blueprint $table) {
+        Schema::create('item_barang', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('donasi_barang_id')->constrained('donasi_barangs')->onDelete('cascade');
+            $table->foreignId('donasi_barang_id')->constrained('donasi_barang')->onDelete('cascade');
             $table->string('nama_barang');
             $table->string('kategori')->nullable();
             $table->integer('jumlah');
@@ -23,6 +23,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('item_barangs');
+        Schema::dropIfExists('item_barang');
     }
 };
