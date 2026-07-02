@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('title', 'Mari Berbagi')</title>
     
+    <title>@yield('title', 'Mari Berbagi')</title>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +14,7 @@
 
     <!-- Tailwind CSS (Vite / Bawaan Laravel) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
     @yield('styles')
     <style>
         body {
@@ -35,24 +36,42 @@
                     </a>
                 </div>
 
-                <!-- Menu Navigasi Sesuai Branch GitHub (image_3e4316.png) -->
+                <!-- Menu Navigasi -->
                 <div class="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-600">
-                    <a href="{{ Route::has('home') ? route('home') : '/' }}" class="text-emerald-800 hover:text-emerald-900 transition">Beranda</a>
-                    
-                    <a href="{{ Route::has('program.index') ? route('program.index') : '#program-pilihan' }}" class="hover:text-emerald-800 transition">Program</a>
-                    
-                    <a href="{{ Route::has('barang.create') ? route('barang.create') : '#' }}" class="hover:text-emerald-800 transition">Kirim Barang</a>
-                    
-                    <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}" class="hover:text-emerald-800 transition">Donasi Dana</a>
-                    
-                    <a href="{{ Route::has('transparansi') ? route('transparansi') : '#' }}" class="hover:text-emerald-800 transition">Transparansi</a>
-                    
-                    <a href="{{ Route::has('feedback.index') ? route('feedback.index') : '#' }}" class="hover:text-emerald-800 transition">Feedback</a>
+                    <a href="{{ Route::has('home') ? route('home') : '/' }}"
+                        class="{{ request()->routeIs('home') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Beranda</a>
+
+                    <a href="{{ Route::has('program.index') ? route('program.index') : '#program-pilihan' }}"
+                        class="{{ request()->routeIs('program.*') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Program</a>
+
+                    <a href="{{ Route::has('transparansi.index') ? route('transparansi.index') : '/transparansi' }}"
+                        class="{{ request()->routeIs('transparansi.*') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Transparansi</a>
+
+                    <a href="{{ Route::has('feedback.index') ? route('feedback.index') : '#' }}"
+                        class="{{ request()->routeIs('feedback.*') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Feedback</a>
                 </div>
 
                 <!-- Tombol Aksi Masuk / Daftar -->
                 <div class="flex items-center gap-4">
-                    <a href="#" class="text-xs font-bold text-emerald-800 hover:text-emerald-950 transition hidden sm:block">Masuk</a>
+                    @auth
+                        <div class="flex items-center gap-3 hidden sm:flex">
+                            <span class="text-xs font-semibold text-slate-600">
+                                Halo, <strong class="text-emerald-950">{{ Auth::user()->name }}</strong>
+                            </span>
+
+                            <form action="{{ route('logout') }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="text-xs font-bold text-red-600 hover:text-red-800 transition">
+                                    Keluar
+                                </button>
+                            </form>
+                        </div>
+                    @else
+                        <a href="{{ Route::has('login') ? route('login') : '/login' }}" class="text-xs font-bold text-emerald-800 hover:text-emerald-950 transition hidden sm:block">
+                            Masuk
+                        </a>
+                    @endauth
+
                     <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}" class="bg-emerald-800 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition shadow-sm">
                         Mulai Donasi
                     </a>
