@@ -10,11 +10,13 @@ return new class extends Migration
     {
         Schema::create('feedbacks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('program_donasi_id')->nullable()->constrained('program_donasi')->onDelete('set null');
-            $table->string('judul');
+            $table->string('nama')->nullable();              // null kalau anonim
+            $table->boolean('anonim')->default(false);
+            $table->string('peran')->default('donatur');      // donatur, penerima, relawan, umum
+            $table->unsignedTinyInteger('rating');             // 1 - 5
+            $table->string('kategori');                        // transparansi, barang, layanan, website, lainnya
             $table->text('isi');
-            $table->integer('rating')->default(5); // 1-5
+            $table->boolean('verified')->default(false);       // admin yang set true, misal utk donatur terdaftar
             $table->timestamps();
         });
     }
