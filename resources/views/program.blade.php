@@ -28,7 +28,7 @@
                 <p class="text-sm text-slate-600 max-w-2xl leading-relaxed">
                     Lebih dari 15 kepala keluarga kehilangan tempat tinggal akibat kebakaran hebat kemarin malam. Saat ini mereka sangat membutuhkan pakaian balita, tenda darurat, dan makanan siap saji.
                 </p>
-                <div class="pt-2 flex flex-col sm:flex-row items-center gap-4">
+                <div class="pt-2 flex flex-col sm:flex-row items-center gap-3">
                     <div class="w-full sm:w-64 space-y-1">
                         <div class="w-full bg-slate-200 rounded-full h-2">
                             <div class="bg-red-600 h-2 rounded-full" style="width: 75%"></div>
@@ -38,9 +38,16 @@
                             <span>75%</span>
                         </div>
                     </div>
-                    <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white text-center text-xs font-bold px-6 py-3 rounded-xl transition shadow-md whitespace-nowrap">
-                        Bantu Sekarang
-                    </a>
+                    
+                    {{-- Tombol Aksi Kanan Banner --}}
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}" class="flex-1 sm:flex-none bg-red-600 hover:bg-red-700 text-white text-center text-xs font-bold px-5 py-3 rounded-xl transition shadow-md whitespace-nowrap">
+                            Bantuan Dana
+                        </a>
+                        <a href="{{ Route::has('barang.create') ? route('barang.create') : '#' }}" class="flex-1 sm:flex-none bg-white hover:bg-slate-100 text-red-700 border border-red-200 text-center text-xs font-bold px-5 py-3 rounded-xl transition shadow-sm whitespace-nowrap">
+                            Kirim Barang
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,7 +59,6 @@
                 <p class="text-xs text-slate-500 mt-1">Pilih dan salurkan bantuanmu secara transparan untuk panti sosial dan daerah terdampak bencana.</p>
             </div>
             
-            {{-- Tombol Filter dengan Atribut Kendali Data-Target --}}
             <div class="flex flex-wrap gap-2" id="filter-button-group">
                 <button data-target="all" class="btn-filter bg-emerald-800 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm transition">
                     Semua
@@ -66,7 +72,7 @@
             </div>
         </div>
 
-        {{-- PHP MANUAL DUMMY DATA (Link Gambar Sudah Diperbaiki & Stabil) --}}
+        {{-- PHP MANUAL DUMMY DATA --}}
         @php
             $daftar_kampanye = [
                 // --- KATEGORI: PANTI SOSIAL ---
@@ -147,7 +153,6 @@
             <div class="card-kampanye bg-white rounded-2xl overflow-hidden border border-slate-200/60 shadow-sm hover:shadow-lg transition flex flex-col group" 
                  data-category="{{ $item['kategori'] }}">
                 
-                {{-- Bagian Gambar + Label Status --}}
                 <div class="relative overflow-hidden">
                     <span class="absolute top-3 left-3 text-white text-[9px] font-bold px-2.5 py-1 rounded-md z-10 shadow-sm {{ $item['tag_color'] }}">
                         {{ $item['tag'] }}
@@ -155,7 +160,6 @@
                     <img src="{{ $item['img'] }}" alt="Gambar Progres Donasi" class="h-48 w-full object-cover group-hover:scale-102 transition-transform duration-300">
                 </div>
 
-                {{-- Konten Utama Card --}}
                 <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
                     <div class="space-y-2">
                         <div class="flex items-center justify-between text-[10px] font-bold text-slate-400">
@@ -169,7 +173,6 @@
                         </h3>
                     </div>
                     
-                    {{-- Status Progress Bar --}}
                     <div class="space-y-1.5">
                         <div class="w-full bg-slate-100 rounded-full h-2">
                             <div class="bg-emerald-600/80 h-2 rounded-full" style="width: {{ $item['persen'] }}"></div>
@@ -180,15 +183,21 @@
                         </div>
                     </div>
 
-                    {{-- Target & Tombol Aksi --}}
-                    <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+                    {{-- Target & Kombinasi Dua Tombol Bersandingan --}}
+                    <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
                         <div>
                             <p class="text-[9px] text-slate-400 uppercase tracking-wider font-semibold">Target Dana</p>
                             <p class="text-xs font-extrabold text-slate-700">{{ $item['target'] }}</p>
                         </div>
-                        <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}" class="bg-emerald-800 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm">
-                            Donasi
-                        </a>
+                        
+                        <div class="flex items-center gap-1.5">
+                            <a href="{{ Route::has('barang.create') ? route('barang.create') : '#' }}" class="bg-white hover:bg-slate-50 text-emerald-800 border border-slate-200 px-3 py-2 rounded-xl text-[11px] font-bold transition shadow-sm whitespace-nowrap">
+                                Kirim Barang
+                            </a>
+                            <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}" class="bg-emerald-800 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-[11px] font-bold transition shadow-sm whitespace-nowrap">
+                                Donasi
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -208,7 +217,6 @@
             button.addEventListener("click", function () {
                 const targetCategory = this.getAttribute("data-target");
 
-                // 1. Ubah Desain/Warna Tombol yang Sedang Aktif
                 buttons.forEach(btn => {
                     btn.classList.remove("bg-emerald-800", "text-white", "font-bold", "shadow-sm");
                     btn.classList.add("bg-white", "text-slate-600", "border", "border-slate-200", "font-semibold");
@@ -217,14 +225,13 @@
                 this.classList.remove("bg-white", "text-slate-600", "border", "border-slate-200", "font-semibold");
                 this.classList.add("bg-emerald-800", "text-white", "font-bold", "shadow-sm");
 
-                // 2. Logika Menyaring (Menyembunyikan / Menampilkan) Kartu Kampanye
                 cards.forEach(card => {
                     const cardCategory = card.getAttribute("data-category");
 
                     if (targetCategory === "all" || cardCategory === targetCategory) {
-                        card.style.display = "flex"; // Tampilkan kartu
+                        card.style.display = "flex";
                     } else {
-                        card.style.display = "none"; // Sembunyikan kartu
+                        card.style.display = "none";
                     }
                 });
             });

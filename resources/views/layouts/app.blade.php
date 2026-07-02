@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>@yield('title', 'Mari Berbagi')</title>
-
+ feature/halaman-home
     <!-- Fonts -->
+ 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -46,15 +47,19 @@
 
                     <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}"
                         class="{{ request()->routeIs('donasi.*') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Donasi Dana</a>
-
+ 
                     <a href="{{ Route::has('transparansi') ? route('transparansi') : '/transparansi' }}"
                         class="{{ request()->routeIs('transparansi') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Transparansi</a>
+                    <a href="{{ Route::has('transparansi.index') ? route('transparansi.index') : '/transparansi' }}"
+                        class="{{ request()->routeIs('transparansi.*') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Transparansi</a>
+
 
                     <a href="{{ Route::has('feedback.index') ? route('feedback.index') : '#' }}"
                         class="{{ request()->routeIs('feedback.*') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Feedback</a>
                 </div>
 
                 <div class="flex items-center gap-4">
+
                     @auth
                         <div class="hidden sm:flex items-center gap-3">
                             <span class="text-xs font-semibold text-slate-600">
@@ -72,6 +77,26 @@
                         </div>
                     @else
                         <a href="{{ Route::has('login') ? route('login') : '/login' }}" class="hidden sm:block text-xs font-bold text-emerald-800 hover:text-emerald-950 transition">
+
+                    {{-- Bagian Autentikasi Login Dinamis --}}
+                    @auth
+                        {{-- Tampilan jika user sudah berhasil login --}}
+                        <div class="flex items-center gap-3 hidden sm:flex">
+                            <span class="text-xs font-semibold text-slate-600">
+                                Halo, <strong class="text-emerald-950">{{ Auth::user()->name }}</strong>
+                            </span>
+
+                            <form action="{{ route('logout') }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="text-xs font-bold text-red-600 hover:text-red-800 transition">
+                                    Keluar
+                                </button>
+                            </form>
+                        </div>
+                    @else
+                        {{-- Tampilan jika belum login --}}
+                        <a href="{{ Route::has('login') ? route('login') : '/login' }}" class="text-xs font-bold text-emerald-800 hover:text-emerald-950 transition hidden sm:block">
+ 
                             Masuk
                         </a>
                     @endauth

@@ -10,13 +10,14 @@ return new class extends Migration
     {
         Schema::create('item_barang', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_donasi_barang');
+            $table->foreignId('donasi_barang_id')->constrained('donasi_barang')->onDelete('cascade');
             $table->string('nama_barang');
+            $table->string('kategori')->nullable();
             $table->integer('jumlah');
-            $table->string('satuan'); // kg, dus, pcs, lusin, karung, liter, buah
+            $table->string('satuan')->default('pcs'); // pcs, kg, lusin, dll
+            $table->enum('kondisi', ['baru', 'layak_pakai', 'rusak'])->default('layak_pakai');
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
-
-            $table->foreign('id_donasi_barang')->references('id')->on('donasi_barang')->onDelete('cascade');
         });
     }
 
