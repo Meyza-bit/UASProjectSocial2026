@@ -41,6 +41,12 @@
                     <a href="{{ Route::has('program.index') ? route('program.index') : '#program-pilihan' }}"
                         class="{{ request()->routeIs('program.*') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Program</a>
 
+                    <a href="{{ Route::has('barang.create') ? route('barang.create') : '#' }}"
+                        class="{{ request()->routeIs('barang.*') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Kirim Barang</a>
+
+                    <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}"
+                        class="{{ request()->routeIs('donasi.*') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Donasi Dana</a>
+
                     <a href="{{ Route::has('transparansi') ? route('transparansi') : '/transparansi' }}"
                         class="{{ request()->routeIs('transparansi') ? 'text-emerald-800' : 'hover:text-emerald-800' }} transition">Transparansi</a>
 
