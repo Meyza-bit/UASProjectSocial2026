@@ -26,7 +26,7 @@
                     Bantuan Logistik & Pakaian Layak Pakai Korban Kebakaran Pemukiman Siantan
                 </h2>
                 <p class="text-sm text-slate-600 max-w-2xl leading-relaxed">
-                    Lebih dari 15 kepala keluarga kehilangan tempat tinggal akibat kebakaran hebat kemarin malam. Saat ini mereka sangat membutuhkan pakaian balita, tenda darurat, dan makanan siap saji.
+                    Lebih dari 15 kepala keluarga kehilangan tempat tinggal akibat kebakaran hebat kemarin malam. Saat ini mereka sangat membutuhkan pakaian balita, tenda darurat, and makanan siap saji.
                 </p>
                 <div class="pt-2 flex flex-col sm:flex-row items-center gap-3">
                     <div class="w-full sm:w-64 space-y-1">
@@ -42,10 +42,10 @@
                     {{-- Tombol Aksi Kanan Banner --}}
                     <div class="flex items-center gap-2 w-full sm:w-auto">
                         <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}" class="flex-1 sm:flex-none bg-red-600 hover:bg-red-700 text-white text-center text-xs font-bold px-5 py-3 rounded-xl transition shadow-md whitespace-nowrap">
-                            Bantuan Dana
+                            Donasi Dana
                         </a>
                         <a href="{{ Route::has('barang.create') ? route('barang.create') : '#' }}" class="flex-1 sm:flex-none bg-white hover:bg-slate-100 text-red-700 border border-red-200 text-center text-xs font-bold px-5 py-3 rounded-xl transition shadow-sm whitespace-nowrap">
-                            Kirim Barang
+                            Donasi Barang
                         </a>
                     </div>
                 </div>
@@ -127,6 +127,7 @@
                     'kategori' => 'Bencana Alam',
                     'lokasi' => '📍 Sungai Raya, Kubu Raya',
                     'tag' => '💨 Kondisi Siaga',
+                    'slate-700' => 'bg-slate-700',
                     'tag_color' => 'bg-slate-700',
                     'img' => 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=600&auto=format&fit=crop',
                     'terkumpul' => 'Rp 6.200.000',
@@ -192,10 +193,10 @@
                         
                         <div class="flex items-center gap-1.5">
                             <a href="{{ Route::has('barang.create') ? route('barang.create') : '#' }}" class="bg-white hover:bg-slate-50 text-emerald-800 border border-slate-200 px-3 py-2 rounded-xl text-[11px] font-bold transition shadow-sm whitespace-nowrap">
-                                Kirim Barang
+                                Donasi Barang
                             </a>
                             <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}" class="bg-emerald-800 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-[11px] font-bold transition shadow-sm whitespace-nowrap">
-                                Donasi
+                                Donasi Dana
                             </a>
                         </div>
                     </div>

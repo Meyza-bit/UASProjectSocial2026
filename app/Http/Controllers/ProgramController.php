@@ -11,6 +11,6 @@ class ProgramController extends Controller
     {
         $programs = ProgramDonasi::aktif()->latest()->get();
 
-        return view('program.index', compact('programs'));
+        return view('program', compact('programs'));
     }
 }
