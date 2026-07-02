@@ -43,4 +43,5 @@
         Kembali ke Katalog
     </a>
 </div>
+
 @endsection
