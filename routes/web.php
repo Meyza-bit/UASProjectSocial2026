@@ -73,5 +73,5 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Kelola Users
     Route::get('/users', [AdminController::class, 'users'])->name('users');
-});
 
+});
