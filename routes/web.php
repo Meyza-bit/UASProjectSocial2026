@@ -75,3 +75,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/users', [AdminController::class, 'users'])->name('users');
 });
 
+Route::prefix('admin')->name('admin.')->group(function () {
+    
+    // URL: localhost:8000/admin
+    Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+    
+    // URL Action untuk Form (Backend Target)
+    Route::post('/program/store', [AdminDashboardController::class, 'storeProgram'])->name('program.store');
+    Route::post('/laporan/store', [AdminDashboardController::class, 'storeLaporan'])->name('laporan.store');
+});
