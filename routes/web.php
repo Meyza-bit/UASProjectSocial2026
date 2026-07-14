@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\TransparansiController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -56,6 +58,8 @@ Route::get('/transparansi', [TransparansiController::class, 'index'])->name('tra
 
 // ===== Panel Admin =====
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    
+    // Halaman Utama Admin (URL: localhost:8000/admin/dashboard)
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
     // Kelola Donasi Dana
@@ -73,7 +77,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Kelola Users
     Route::get('/users', [AdminController::class, 'users'])->name('users');
+
+
 });
-
-//ayooo
-

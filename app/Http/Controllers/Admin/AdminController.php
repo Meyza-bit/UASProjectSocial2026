@@ -65,7 +65,11 @@ class AdminController extends Controller
     public function feedback()
     {
         $feedbacks = Feedback::latest()->paginate(20);
-        return view('admin.feedback', compact('feedbacks'));
+
+        return view('admin.feedback', [
+            'feedbacks' => $feedbacks,
+            'feedback'  => $feedbacks,
+        ]);
     }
 
     public function hapusFeedback(Feedback $feedback)
