@@ -2,40 +2,94 @@
 @section('title', 'Moderasi Umpan Balik')
 
 @section('admin-content')
-<div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden text-xs">
-    <div class="p-5 border-b border-slate-100">
-        <h3 class="font-bold text-slate-800">💬 Pengawasan Umpan Balik Publik (Anti Spam)</h3>
+<div class="space-y-6 pb-12">
+    
+    {{-- ALERT NOTIFIKASI SUKSES --}}
+    @if(session('success'))
+    <div class="flex items-center gap-3 p-4 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-800 text-xs font-semibold shadow-sm animate-fade-in">
+        <span>✨</span>
+        <p>{{ session('success') }}</p>
     </div>
-    <table class="w-full text-left border-collapse whitespace-nowrap">
-        <thead class="bg-slate-50 text-slate-400 font-bold uppercase text-[10px] border-b border-slate-200">
-            <tr>
-                <th class="p-4 pl-6">Pengirim</th>
-                <th class="p-4">Isi Komentar / Umpan Balik</th>
-                <th class="p-4 text-center pr-6">Aksi Bersihkan</th>
-            </tr>
-        </thead>
-        <tbody class="divide-y divide-slate-100 font-medium text-slate-600">
-            @forelse($feedbacks as $fb)
-            <tr>
-                <td class="p-4 pl-6 font-bold text-slate-900">{{ $fb->nama ?? 'Anonim' }}</td>
-                <td class="p-4 text-slate-500 max-w-sm whitespace-normal">{{ $fb->komentar }}</td>
-                <td class="p-4 text-center pr-6">
-                    <form action="/admin/feedback/{{ $fb->id }}/hapus" method="POST" onsubmit="return confirm('Hapus komentar negatif/spam ini?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="bg-rose-50 text-rose-700 border border-rose-200 font-bold px-3 py-1.5 rounded-lg hover:bg-rose-100 transition shadow-sm">🗑️ Hapus Komentar</button>
-                    </form>
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="3" class="p-8 text-center text-slate-400">Kolom umpan balik bersih, tidak ada komentar terdeteksi.</td>
-            </tr>
-            @endforelse
-        </tbody>
-    </table>
-    <div class="p-4 border-t border-slate-100">
-        {{ $feedbacks->links() }}
+    @endif
+
+    {{-- HEADER MODERASI FEEDBACK --}}
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+            <h2 class="text-xl font-bold text-slate-900 tracking-tight">💬 Pengawasan Umpan Balik Publik</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Moderasi pesan masuk dari masyarakat untuk menyaring spam, ujaran kebencian, atau komentar negatif.</p>
+        </div>
+        <div class="px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-[11px] font-bold text-slate-600 shadow-sm">
+            Total Umpan Balik: <span class="text-emerald-700 font-extrabold">{{ $feedbacks->total() }}</span>
+        </div>
+    </div>
+
+    {{-- TABLE CONTAINER --}}
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden text-xs">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse whitespace-nowrap">
+                <thead class="bg-slate-50 text-slate-400 font-bold uppercase text-[10px] border-b border-slate-200">
+                    <tr>
+                        <th class="p-4 pl-6 w-1/4">Pengirim</th>
+                        <th class="p-4 w-1/2">Isi Komentar / Umpan Balik</th>
+                        <th class="p-4 text-center pr-6 w-1/4">Tindakan Moderasi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 font-medium text-slate-600">
+                    @forelse($feedbacks as $fb)
+                    <tr class="hover:bg-slate-50/50 transition-colors">
+                        {{-- KOLOM 1: IDENTITAS PENGIRIM --}}
+                        <td class="p-4 pl-6 vertical-align-top">
+                            <div class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                                <span class="text-base">👤</span>
+                                {{ $fb->nama ?? 'Anonim' }}
+                            </div>
+                            @if(isset($fb->email))
+                            <div class="text-[10px] text-slate-400 mt-0.5 font-mono">
+                                {{ $fb->email }}
+                            </div>
+                            @endif
+                            @if(isset($fb->created_at))
+                            <div class="text-[9px] text-slate-400 mt-1">
+                                📅 {{ $fb->created_at->format('d M Y, H:i') }}
+                            </div>
+                            @endif
+                        </td>
+                        
+                        {{-- KOLOM 2: ISI KOMENTAR (BISA WRAPPING/TURUN KE BAWAH) --}}
+                        <td class="p-4 whitespace-normal max-w-md leading-relaxed text-slate-600">
+                            <div class="bg-slate-50/80 rounded-xl p-3 border border-slate-100 text-[11px]">
+                                {{ $fb->komentar }}
+                            </div>
+                        </td>
+                        
+                        {{-- KOLOM 3: TOMBOL HAPUS SPAM --}}
+                        <td class="p-4 text-center pr-6">
+                            <form action="/admin/feedback/{{ $fb->id }}/hapus" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus umpan balik ini? Tindakan ini tidak dapat dibatalkan.')" class="inline-block">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="inline-flex items-center gap-1.5 bg-white hover:bg-rose-50 border border-slate-200 hover:border-rose-200 text-rose-600 hover:text-rose-700 font-bold px-3 py-2 rounded-xl transition shadow-sm text-[11px]">
+                                    <span>🗑️</span> Hapus Komentar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="3" class="p-12 text-center text-slate-400">
+                            <span class="text-3xl block mb-2">🍃</span>
+                            <p class="font-medium text-slate-500">Kolom umpan balik bersih, belum ada komentar masuk dari publik.</p>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        
+        {{-- PAGINATION --}}
+        @if($feedbacks->hasPages())
+        <div class="p-4 border-t border-slate-100 bg-slate-50/50">
+            {{ $feedbacks->links() }}
+        </div>
+        @endif
     </div>
 </div>
-@endsection
