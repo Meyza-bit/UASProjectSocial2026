@@ -122,7 +122,7 @@
                     {{-- Card Kategori 1 --}}
                     <div class="bg-white rounded-2xl p-6 border border-slate-200/60 shadow-sm space-y-1">
                         <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Sembako / Bahan Pangan</p>
-                        <h3 class="text-2xl font-extrabold text-slate-900">1,730.5 <span class="text-xs font-bold text-slate-500">Items / Kg / L / Dus</span></h3>
+                        <h3 class="text-2xl font-extrabold text-slate-900">1,730.5 <span class="text-xs font-bold text-slate-500">Items / Kg / pcs / Dus</span></h3>
                         <p class="text-xs text-slate-500">Beras, minyak goreng, gula, mi instan</p>
                     </div>
                     {{-- Card Kategori 2 --}}
@@ -187,7 +187,7 @@
                                     <td class="py-4 font-bold text-slate-900 pr-4 whitespace-normal">Penyaluran Beras, Minyak Goreng & Mi Instan Korban Kebakaran Siantan</td>
                                     <td class="py-4"><span class="bg-emerald-50 text-emerald-700 border border-emerald-200/50 px-2.5 py-1 rounded-md font-bold text-[10px]">Sembako / Bahan Pangan</span></td>
                                     {{-- Volume barang diperbaiki logikanya: kg, Liter, dan Dus --}}
-                                    <td class="py-4 font-mono font-bold text-slate-900">450 kg, 120 L & 25 Dus</td>
+                                    <td class="py-4 font-mono font-bold text-slate-900">450 kg, 120 pcs & 25 Dus</td>
                                     <td class="py-4 text-slate-500 whitespace-normal pr-4">Posko Darurat Siantan Hulu</td>
                                     <td class="py-4 text-center"><span class="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-[10px] font-bold border border-emerald-200/50">✓ Lengkap</span></td>
                                     <td class="py-4 text-center"><button class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 px-3 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">📥 Unduh Surat Jalan</button></td>

@@ -24,32 +24,6 @@
             <form action="{{ route('barang.store') }}" method="POST" class="space-y-6">
                 @csrf
 
-                {{-- TARGET --}}
-                <div class="bg-white rounded-2xl border border-slate-200/60 p-6 shadow-sm space-y-4">
-                    <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">🎯 Tujuan Pengiriman</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="flex flex-col space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700">Pilih Program / Lokasi Bencana</label>
-                            <select name="program" class="w-full text-sm bg-slate-50/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:border-emerald-600 focus:bg-white transition" required>
-                                <option value="">-- Pilih Program --</option>
-                                <option>Siantan Hulu, Pontianak Utara</option>
-                                <option>Panti Asuhan Ahmad Yani</option>
-                                <option>Bencana Alam Paris 2</option>
-                                <option>Santri Panti Asuhan Amal Mulia</option>
-                            </select>
-                        </div>
-                        <div class="flex flex-col space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700">Prioritas Kebutuhan</label>
-                            <select name="prioritas" class="w-full text-sm bg-slate-50/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:border-emerald-600 focus:bg-white transition" required>
-                                <option>Pangan & Air Bersih</option>
-                                <option>Kebutuhan Anak</option>
-                                <option>Sembako</option>
-                                <option>Pakaian</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
                
                 {{-- KATEGORI --}}
 <div class="bg-white rounded-2xl border border-slate-200/60 p-6 shadow-sm space-y-4">
