@@ -8,6 +8,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\TransparansiController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -54,8 +55,10 @@ Route::post('/feedback', [FeedbackController::class, 'store'])
 // ===== Modul Transparansi =====
 Route::get('/transparansi', [TransparansiController::class, 'index'])->name('transparansi');
 
-// ===== Panel Admin =====
+
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    
+    // Halaman Utama Admin (URL: localhost:8000/admin/dashboard)
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
     // Kelola Donasi Dana
@@ -73,14 +76,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Kelola Users
     Route::get('/users', [AdminController::class, 'users'])->name('users');
-});
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    
+    // --- Action Tambahan (Diubah namanya menjadi 'index_dashboard' agar tidak tabrakan) ---
     // URL: localhost:8000/admin
-    Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [AdminDashboardController::class, 'index'])->name('index_dashboard');
     
-    // URL Action untuk Form (Backend Target)
+    // URL Action untuk Form
     Route::post('/program/store', [AdminDashboardController::class, 'storeProgram'])->name('program.store');
     Route::post('/laporan/store', [AdminDashboardController::class, 'storeLaporan'])->name('laporan.store');
 });

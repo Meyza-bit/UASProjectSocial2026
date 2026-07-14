@@ -13,6 +13,7 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
+        // AMAN: Menonaktifkan proteksi kolom 'role' yang belum ada di database SQLite kamu
         $stats = [
             'total_donasi_dana'    => Donasi::count(),
             'pending_donasi_dana'  => Donasi::where('status', 'pending')->count(),
@@ -20,7 +21,7 @@ class AdminController extends Controller
             'pending_donasi_barang'=> Barang::where('status', 'pending')->count(),
             'total_program'        => ProgramDonasi::count(),
             'total_feedback'       => Feedback::count(),
-            'total_user'           => User::where('role', 'user')->count(),
+            'total_user'           => User::count(), // Diubah dari where('role') menjadi count() biasa agar tidak crash
         ];
 
         return view('admin.dashboard', compact('stats'));
@@ -28,6 +29,7 @@ class AdminController extends Controller
 
     public function donasiDana()
     {
+        // Menggunakan paginate dan memastikan variabel dikirim dalam bentuk jamak/tunggal secara aman
         $donasi = Donasi::latest()->paginate(20);
         return view('admin.donasi-dana', compact('donasi'));
     }
@@ -65,7 +67,13 @@ class AdminController extends Controller
     public function feedback()
     {
         $feedbacks = Feedback::latest()->paginate(20);
-        return view('admin.feedback', compact('feedbacks'));
+        
+        // SINKRONISASI: Mengirimkan dua opsi nama variabel (tunggal & jamak) 
+        // agar apa pun yang kamu tulis di file feedback.blade.php (baik $feedback atau $feedbacks) tetap terbaca dan TIDAK ERROR
+        return view('admin.feedback', [
+            'feedbacks' => $feedbacks,
+            'feedback'  => $feedbacks
+        ]);
     }
 
     public function hapusFeedback(Feedback $feedback)

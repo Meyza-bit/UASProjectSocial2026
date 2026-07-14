@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Donasi extends Model
 {
     // Menghubungkan model ke tabel 'donasis' (opsional jika nama tabel sesuai konvensi)
-    protected $table = 'donasis';
+    protected $table = 'donasi';
 
     // Ini bagian terpenting: Mendefinisikan kolom mana saja yang boleh diisi
     // Tanpa ini, data dari form donasi tidak akan bisa tersimpan
