@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Donasi;
-use App\Models\Barang;
+use App\Models\DonasiDana;
+use App\Models\DonasiBarang;
 use App\Models\Feedback;
 use App\Models\ProgramDonasi;
 use App\Models\User;
@@ -14,13 +14,13 @@ class AdminController extends Controller
     public function dashboard()
     {
         $stats = [
-            'total_donasi_dana'    => Donasi::count(),
-            'pending_donasi_dana'  => Donasi::where('status', 'pending')->count(),
-            'total_donasi_barang'  => Barang::count(),
-            'pending_donasi_barang'=> Barang::where('status', 'pending')->count(),
-            'total_program'        => ProgramDonasi::count(),
-            'total_feedback'       => Feedback::count(),
-            'total_user'           => User::where('role', 'user')->count(),
+            'total_donasi_dana'     => DonasiDana::count(),
+            'pending_donasi_dana'   => DonasiDana::where('status', 'pending')->count(),
+            'total_donasi_barang'   => DonasiBarang::count(),
+            'pending_donasi_barang' => DonasiBarang::where('status', 'pending')->count(),
+            'total_program'         => ProgramDonasi::count(),
+            'total_feedback'        => Feedback::count(),
+            'total_user'            => User::where('role', 'user')->count(),
         ];
 
         return view('admin.dashboard', compact('stats'));
@@ -28,17 +28,17 @@ class AdminController extends Controller
 
     public function donasiDana()
     {
-        $donasi = Donasi::latest()->paginate(20);
+        $donasi = DonasiDana::latest()->paginate(20);
         return view('admin.donasi-dana', compact('donasi'));
     }
 
-    public function verifikasiDonasi(Donasi $donasi)
+    public function verifikasiDonasi(DonasiDana $donasi)
     {
-        $donasi->update(['status' => 'terverifikasi']);
+        $donasi->update(['status' => 'verified']);
         return back()->with('success', 'Donasi berhasil diverifikasi.');
     }
 
-    public function tolakDonasi(Donasi $donasi)
+    public function tolakDonasi(DonasiDana $donasi)
     {
         $donasi->update(['status' => 'ditolak']);
         return back()->with('success', 'Donasi berhasil ditolak.');
@@ -46,13 +46,13 @@ class AdminController extends Controller
 
     public function donasiBarang()
     {
-        $barang = Barang::latest()->paginate(20);
+        $barang = DonasiBarang::latest()->paginate(20);
         return view('admin.donasi-barang', compact('barang'));
     }
 
-    public function verifikasiBarang(Barang $barang)
+    public function verifikasiBarang(DonasiBarang $barang)
     {
-        $barang->update(['status' => 'terverifikasi']);
+        $barang->update(['status' => 'diterima']);
         return back()->with('success', 'Donasi barang berhasil diverifikasi.');
     }
 
