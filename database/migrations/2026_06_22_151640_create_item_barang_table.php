@@ -10,8 +10,9 @@ return new class extends Migration
     {
         Schema::create('item_barang', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('donasi_barang_id')->constrained('donasi_barangs')->onDelete('cascade');
-            $table->string('nama_barang');
+            $table->foreignId('donasi_barang_id')->constrained('donasi_barang')->onDelete('cascade');
+            $table->string('nama_barang'
+            );
             $table->string('kategori')->nullable();
             $table->integer('jumlah');
             $table->string('satuan')->default('pcs'); // pcs, kg, lusin, dll

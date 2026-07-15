@@ -18,7 +18,11 @@ class FeedbackController extends Controller
             $query->where('rating', $request->rating);
         }
 
-        $feedbacks = $query->latest()->get();
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
+
+        $feedbacks = $query->where('verified', true)->latest()->get();
 
         return response()->json([
             'status' => 'success',
@@ -31,9 +35,12 @@ class FeedbackController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nama'   => 'required|string|max:255',
-            'rating' => 'required|integer|min:1|max:5',
-            'ulasan' => 'required|string',
+            'nama'     => 'nullable|string|max:255',
+            'anonim'   => 'required|boolean',
+            'peran'    => 'required|in:donatur,penerima,relawan,umum',
+            'rating'   => 'required|integer|min:1|max:5',
+            'kategori' => 'required|in:transparansi,barang,layanan,website,lainnya',
+            'isi'      => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -43,7 +50,15 @@ class FeedbackController extends Controller
             ], 422);
         }
 
-        $feedback = Feedback::create($validator->validated());
+        $feedback = Feedback::create([
+            'nama'     => $request->anonim ? null : $request->nama,
+            'anonim'   => $request->anonim,
+            'peran'    => $request->peran,
+            'rating'   => $request->rating,
+            'kategori' => $request->kategori,
+            'isi'      => $request->isi,
+            'verified' => false,
+        ]);
 
         return response()->json([
             'status'  => 'success',

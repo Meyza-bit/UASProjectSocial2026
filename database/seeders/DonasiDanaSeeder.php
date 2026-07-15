@@ -9,7 +9,7 @@ class DonasiDanaSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('donasis')->insert([
+        DB::table('donasi')->insert([
             [
                 'name'              => 'Budi Santoso',
                 'amount'            => 500000,

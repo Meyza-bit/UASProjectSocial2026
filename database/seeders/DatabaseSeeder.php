@@ -24,8 +24,8 @@ class DatabaseSeeder extends Seeder
         // Akun User Biasa
         User::create([
             'name'     => 'User',
-            'email'    => 'user@donasi.com',
-            'password' => Hash::make('password'),
+            'email'    => 'ocel@gmail.com',
+            'password' => Hash::make('1234'),
             'role'     => 'user',
         ]);
 

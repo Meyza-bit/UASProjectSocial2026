@@ -16,8 +16,8 @@ class DonasiApiSeeder extends Seeder
         DB::table('donasi_dana')->insert([
             [
                 'id_user'      => $users['budi@donasi.com'],
-                'id_program'   => $programs['Bantuan Darurat Gempa Cianjur'],
-                'id_target'    => $targets['Korban Gempa Cianjur'],
+                'id_program'   => $programs['Bantuan Logistik Korban Kebakaran Siantan'],
+                'id_target'    => $targets['Korban Kebakaran Siantan'],
                 'nominal'      => 500000,
                 'metode_bayar' => 'transfer_bca',
                 'pesan'        => 'Semoga cepat pulih ya.',
@@ -28,8 +28,8 @@ class DonasiApiSeeder extends Seeder
             ],
             [
                 'id_user'      => $users['siti@donasi.com'],
-                'id_program'   => $programs['Peduli Banjir Jakarta'],
-                'id_target'    => $targets['Korban Banjir Jakarta'],
+                'id_program'   => $programs['Dapur Umum Korban Banjir Kapuas Pontianak'],
+                'id_target'    => $targets['Korban Banjir Kapuas'],
                 'nominal'      => 250000,
                 'metode_bayar' => 'gopay',
                 'pesan'        => 'Semoga bantuan ini bermanfaat.',
@@ -40,8 +40,8 @@ class DonasiApiSeeder extends Seeder
             ],
             [
                 'id_user'      => $users['andi@donasi.com'],
-                'id_program'   => $programs['Tanggap Darurat Erupsi Merapi'],
-                'id_target'    => $targets['Korban Erupsi Merapi'],
+                'id_program'   => $programs['Darurat Banjir Bandang Landak: Air Bersih & Obat-obatan'],
+                'id_target'    => $targets['Korban Banjir Landak'],
                 'nominal'      => 1000000,
                 'metode_bayar' => 'dana',
                 'pesan'        => null,

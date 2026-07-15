@@ -11,7 +11,7 @@ class BarangSeeder extends Seeder
     {
         DB::table('barangs')->insert([
             [
-                'program'         => 'Bantuan Darurat Gempa Cianjur',
+                'program'         => 'Bantuan Logistik Korban Kebakaran Siantan',
                 'prioritas'       => 'Tinggi',
                 'kategori'        => 'Sembako',
                 'daftar_barang'   => json_encode([
@@ -21,7 +21,7 @@ class BarangSeeder extends Seeder
                 ]),
                 'nama_pengirim'   => 'Budi Santoso',
                 'hp_pengirim'     => '081234567890',
-                'alamat_pengirim' => 'Jl. Merdeka No.1, Jakarta Pusat',
+                'alamat_pengirim' => 'Jl. Veteran No.1, Pontianak',
                 'ekspedisi'       => 'JNE',
                 'berat'           => 80.00,
                 'status'          => 'diterima',
@@ -29,7 +29,7 @@ class BarangSeeder extends Seeder
                 'updated_at'      => now(),
             ],
             [
-                'program'         => 'Peduli Banjir Jakarta',
+                'program'         => 'Dapur Umum Korban Banjir Kapuas Pontianak',
                 'prioritas'       => 'Sedang',
                 'kategori'        => 'Pakaian',
                 'daftar_barang'   => json_encode([
@@ -39,7 +39,7 @@ class BarangSeeder extends Seeder
                 ]),
                 'nama_pengirim'   => 'Siti Rahma',
                 'hp_pengirim'     => '089876543210',
-                'alamat_pengirim' => 'Jl. Sudirman No.5, Bandung',
+                'alamat_pengirim' => 'Jl. Tanjungpura No.5, Pontianak',
                 'ekspedisi'       => 'TIKI',
                 'berat'           => 30.00,
                 'status'          => 'dikirim',
@@ -47,17 +47,17 @@ class BarangSeeder extends Seeder
                 'updated_at'      => now(),
             ],
             [
-                'program'         => 'Tanggap Darurat Erupsi Merapi',
+                'program'         => 'Darurat Banjir Bandang Landak: Air Bersih & Obat-obatan',
                 'prioritas'       => 'Tinggi',
                 'kategori'        => 'Obat-obatan',
                 'daftar_barang'   => json_encode([
-                    ['nama' => 'Masker N95', 'jumlah' => 100, 'satuan' => 'pcs'],
+                    ['nama' => 'Masker', 'jumlah' => 100, 'satuan' => 'pcs'],
                     ['nama' => 'Obat Batuk', 'jumlah' => 50, 'satuan' => 'buah'],
                     ['nama' => 'Perban', 'jumlah' => 30, 'satuan' => 'buah'],
                 ]),
                 'nama_pengirim'   => 'Andi Saputra',
                 'hp_pengirim'     => '082345678901',
-                'alamat_pengirim' => 'Jl. Diponegoro No.10, Yogyakarta',
+                'alamat_pengirim' => 'Jl. Ahmad Yani No.10, Pontianak',
                 'ekspedisi'       => 'SiCepat',
                 'berat'           => 15.00,
                 'status'          => 'pending',
@@ -65,19 +65,19 @@ class BarangSeeder extends Seeder
                 'updated_at'      => now(),
             ],
             [
-                'program'         => 'Beasiswa & Perlengkapan Belajar Panti Al-Ikhlas',
+                'program'         => 'Patungan Sembako & Kasur Panti Asuhan Ahmad Yani',
                 'prioritas'       => 'Rendah',
-                'kategori'        => 'Perlengkapan Belajar',
+                'kategori'        => 'Perlengkapan',
                 'daftar_barang'   => json_encode([
-                    ['nama' => 'Buku Tulis', 'jumlah' => 100, 'satuan' => 'buah'],
-                    ['nama' => 'Pensil', 'jumlah' => 50, 'satuan' => 'buah'],
-                    ['nama' => 'Tas Sekolah', 'jumlah' => 20, 'satuan' => 'buah'],
+                    ['nama' => 'Kasur', 'jumlah' => 10, 'satuan' => 'buah'],
+                    ['nama' => 'Bantal', 'jumlah' => 20, 'satuan' => 'buah'],
+                    ['nama' => 'Selimut', 'jumlah' => 20, 'satuan' => 'buah'],
                 ]),
                 'nama_pengirim'   => 'Rina Putri',
                 'hp_pengirim'     => '085678901234',
-                'alamat_pengirim' => 'Jl. Gatot Subroto No.3, Surabaya',
+                'alamat_pengirim' => 'Jl. Gajah Mada No.3, Pontianak',
                 'ekspedisi'       => 'J&T',
-                'berat'           => 20.00,
+                'berat'           => 50.00,
                 'status'          => 'diterima',
                 'created_at'      => now(),
                 'updated_at'      => now(),

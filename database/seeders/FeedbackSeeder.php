@@ -3,18 +3,68 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Feedback;
+use Illuminate\Support\Facades\DB;
 
 class FeedbackSeeder extends Seeder
 {
     public function run(): void
     {
-        Feedback::insert([
-            ['nama' => 'Budi Santoso', 'rating' => 5, 'ulasan' => 'Program sangat transparan dan membantu korban bencana.', 'created_at' => now(), 'updated_at' => now()],
-            ['nama' => 'Siti Rahma', 'rating' => 4, 'ulasan' => 'Penyaluran bantuan cepat dan terpercaya.', 'created_at' => now(), 'updated_at' => now()],
-            ['nama' => 'Andi Saputra', 'rating' => 3, 'ulasan' => 'Cukup baik, semoga semakin berkembang.', 'created_at' => now(), 'updated_at' => now()],
-            ['nama' => 'Rina Putri', 'rating' => 5, 'ulasan' => 'Saya puas dengan laporan transparansi donasi.', 'created_at' => now(), 'updated_at' => now()],
-            ['nama' => 'Dewi Lestari', 'rating' => 4, 'ulasan' => 'Sangat membantu masyarakat yang membutuhkan.', 'created_at' => now(), 'updated_at' => now()],
+        DB::table('feedbacks')->insert([
+            [
+                'nama'       => 'Budi Santoso',
+                'anonim'     => false,
+                'peran'      => 'donatur',
+                'rating'     => 5,
+                'kategori'   => 'transparansi',
+                'isi'        => 'Program sangat transparan dan membantu korban bencana.',
+                'verified'   => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama'       => 'Siti Rahma',
+                'anonim'     => false,
+                'peran'      => 'donatur',
+                'rating'     => 4,
+                'kategori'   => 'layanan',
+                'isi'        => 'Penyaluran bantuan cepat dan terpercaya.',
+                'verified'   => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama'       => 'Andi Saputra',
+                'anonim'     => false,
+                'peran'      => 'donatur',
+                'rating'     => 3,
+                'kategori'   => 'website',
+                'isi'        => 'Cukup baik, semoga semakin berkembang.',
+                'verified'   => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama'       => 'Rina Putri',
+                'anonim'     => false,
+                'peran'      => 'donatur',
+                'rating'     => 5,
+                'kategori'   => 'transparansi',
+                'isi'        => 'Saya puas dengan laporan transparansi donasi.',
+                'verified'   => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama'       => 'Dewi Lestari',
+                'anonim'     => false,
+                'peran'      => 'relawan',
+                'rating'     => 4,
+                'kategori'   => 'barang',
+                'isi'        => 'Sangat membantu masyarakat yang membutuhkan.',
+                'verified'   => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }
