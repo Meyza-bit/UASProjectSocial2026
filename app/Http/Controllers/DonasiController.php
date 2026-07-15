@@ -8,7 +8,6 @@ use App\Models\Donasi;
 class DonasiController extends Controller
 {
     // Daftar tujuan pembayaran untuk setiap metode.
-    // Silakan ganti nomor rekening/e-wallet sesuai data asli kamu.
     private $infoPembayaran = [
         'GoPay'      => ['tipe' => 'ewallet', 'tujuan' => '0812-3456-7890', 'label' => 'Nomor GoPay'],
         'DANA'       => ['tipe' => 'ewallet', 'tujuan' => '0812-3456-7890', 'label' => 'Nomor DANA'],
@@ -29,7 +28,7 @@ class DonasiController extends Controller
 
     public function pembayaran()
     {
-        // FIX: cegah user mengakses halaman ini langsung tanpa mengisi form donasi dulu
+        // Cegah user mengakses halaman ini langsung tanpa mengisi form donasi dulu
         if (!session('donasi_id')) {
             return redirect()->route('donasi.create')
                 ->with('error', 'Silakan isi data donasi terlebih dahulu.');
@@ -85,8 +84,7 @@ class DonasiController extends Controller
             return redirect()->route('donasi.create');
         }
 
-        // FIX: ambil info tujuan pembayaran sesuai metode yang dipilih,
-        // lalu kirim ke view supaya tidak hardcode lagi
+        // Ambil info tujuan pembayaran sesuai metode yang dipilih
         $info = $this->infoPembayaran[$donasi->metode_pembayaran] ?? [
             'tipe' => 'bank', 'tujuan' => '-', 'label' => 'Tujuan Pembayaran',
         ];
@@ -97,19 +95,19 @@ class DonasiController extends Controller
         ]);
     }
 
-    // FUNGSI BARU: dipanggil saat user klik "Saya Sudah Melakukan Pembayaran"
-    public function selesai()
+    // FUNGSI BARU: dipanggil saat user klik "Kirim Bukti Pembayaran"
+    public function selesai(Request $request)
     {
         $id = session('donasi_id');
         $donasi = Donasi::find($id);
 
-        if ($donasi) {
+        // Perbaikan logika: Jika donasi TIDAK ditemukan, balikkan ke halaman create
+        if (!$donasi) {
              return redirect()->route('donasi.create')->with('error', 'Sesi habis, silakan mulai ulang.');
         }
 
-        
+        // Validasi file bukti transfer
         $request->validate([
-            // Terima file gambar (jpg/png) atau pdf, maksimal 2MB
             'bukti' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ], [
             'bukti.required' => 'Mohon upload bukti transfer terlebih dahulu.',
@@ -117,15 +115,19 @@ class DonasiController extends Controller
             'bukti.max'      => 'Ukuran file maksimal 2MB.',
         ]);
 
+        // Simpan file bukti ke folder storage/app/public/bukti_pembayaran
         $path = $request->file('bukti')->store('bukti_pembayaran', 'public');
  
+        // Update database sesuai nama kolom di Model
         $donasi->update([
             'bukti_pembayaran' => $path,
             'status'           => 'menunggu_verifikasi',
         ]);
  
+        // Hapus session donasi agar transaksi selesai
         session()->forget('donasi_id');
  
+        // Redirect ke halaman terima kasih dengan menyertakan ID donasi
         return redirect()->route('donasi.terimakasih', $donasi->id);
     }
  
@@ -134,6 +136,7 @@ class DonasiController extends Controller
     {
         $donasi = Donasi::findOrFail($id);
  
-        return view('donasi.terimakasih', ['donasi' => $donasi]);
+        // Dipanggil sesuai nama file view: donasi_terimakasih.blade.php
+        return view('donasi.donasi_terimakasih', ['donasi' => $donasi]);
     }
 }
