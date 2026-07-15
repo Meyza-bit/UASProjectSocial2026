@@ -9,7 +9,7 @@ class DonasiBarang extends Model
 {
     use HasFactory;
 
-    protected $table = 'donasi_barangs';
+    protected $table = 'donasi_barang';
 
     protected $fillable = [
         'program_donasi_id',
