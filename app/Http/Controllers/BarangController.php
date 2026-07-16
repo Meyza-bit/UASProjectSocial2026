@@ -22,9 +22,8 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         // Validasi input agar data wajib diisi dengan benar
+        // PERBAIKAN: Validasi 'program' dan 'prioritas' dihapus karena tidak ada di form HTML Anda
         $request->validate([
-            'program'           => 'required',
-            'prioritas'         => 'required',
             'kategori'          => 'required',
             'nama_pengirim'     => 'required|string|max:255',
             'hp_pengirim'       => 'required|string|max:20',
@@ -37,7 +36,9 @@ class BarangController extends Controller
         ]);
 
         $namaPengirim = $request->input('nama_pengirim');
-        $namaProgram = $request->input('program');
+        
+        // PERBAIKAN: Memberikan nilai default karena input program tidak ada di form HTML Anda
+        $namaProgram = 'Program Donasi Logistik';
 
         // Mengambil array daftar barang dinamis yang ditambah lewat tombol JavaScript
         $daftarBarang = $request->input('barang');
@@ -47,13 +48,31 @@ class BarangController extends Controller
             $namaBarang   = $item['nama'];
             $jumlahBarang = $item['jumlah'];
             $satuanBarang = $item['satuan'];
-            // (Siap dihubungkan ke Eloquent Model/Database jika tabel sudah ada)
         }
 
-        // Kembali ke halaman form dengan pesan sukses kilat (flash session)
-        return redirect()->route('barang.create')->with(
-            'success', 
-            "Terima kasih {$namaPengirim}! Data logistik untuk '{$namaProgram}' berhasil direkam."
-        );
+        // SESUAI ROUTE: Diarahkan ke 'barang.sukses' membawa ID acak dan data form lewat parameter URL
+        return redirect()->route('barang.sukses', [
+            'id'        => rand(100, 999), // ID referensi acak sementara
+            'nama'      => $namaPengirim,
+            'program'   => $namaProgram,
+            'ekspedisi' => $request->input('ekspedisi'),
+            'hp'        => $request->input('hp_pengirim'),
+        ]);
+    }
+
+    // 4. Menampilkan Halaman Sukses (Disamakan dengan web.php Anda)
+    public function sukses(Request $request, $id)
+    {
+        // Membuat object tiruan untuk dikirim ke view agar sesuai dengan variabel di barang-sukses.blade.php
+        $pengiriman = (object) [
+            'id'              => $id,
+            'nama_pengirim'   => $request->query('nama'),
+            'program'         => $request->query('program'),
+            'ekspedisi'       => $request->query('ekspedisi'),
+            'hp_pengirim'     => $request->query('hp'),
+        ];
+
+        // PERBAIKAN: Mengarahkan ke view di dalam folder barang (barang/barang-sukses.blade.php)
+        return view('barang.barang-sukses', compact('pengiriman'));
     }
 }
