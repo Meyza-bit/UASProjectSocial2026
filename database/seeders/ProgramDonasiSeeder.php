@@ -11,10 +11,6 @@ class ProgramDonasiSeeder extends Seeder
     {
         $targets = DB::table('target_penerima')->pluck('id_target', 'nama_target');
 
-        // Gambar transparan 1x1 pixel (base64) — dipakai sebagai placeholder
-        // supaya <img src="..."> tetap valid tapi tidak menampilkan apapun secara visual.
-        $gambarKosong = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
-
         DB::table('program_donasi')->insert([
             [
                 'id_target'       => $targets['Korban Kebakaran Siantan'],
@@ -26,7 +22,7 @@ class ProgramDonasiSeeder extends Seeder
                 'tanggal_mulai'   => '2026-06-01',
                 'tanggal_selesai' => '2026-08-01',
                 'status'          => 'aktif',
-                'gambar'          => $gambarKosong,
+                'gambar'          => 'https://images.unsplash.com/photo-1594897030264-ab7d87efc473?q=80&w=600&auto=format&fit=crop',
                 'created_at'      => now(),
                 'updated_at'      => now(),
             ],
@@ -40,7 +36,7 @@ class ProgramDonasiSeeder extends Seeder
                 'tanggal_mulai'   => '2026-06-10',
                 'tanggal_selesai' => '2026-07-10',
                 'status'          => 'aktif',
-                'gambar'          => $gambarKosong,
+                'gambar'          => 'https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=600&auto=format&fit=crop',
                 'created_at'      => now(),
                 'updated_at'      => now(),
             ],
@@ -54,7 +50,7 @@ class ProgramDonasiSeeder extends Seeder
                 'tanggal_mulai'   => '2026-05-15',
                 'tanggal_selesai' => '2026-09-15',
                 'status'          => 'aktif',
-                'gambar'          => $gambarKosong,
+                'gambar'          => 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=600&auto=format&fit=crop',
                 'created_at'      => now(),
                 'updated_at'      => now(),
             ],
@@ -68,7 +64,7 @@ class ProgramDonasiSeeder extends Seeder
                 'tanggal_mulai'   => '2026-06-20',
                 'tanggal_selesai' => '2026-08-20',
                 'status'          => 'darurat',
-                'gambar'          => $gambarKosong,
+                'gambar'          => 'https://images.unsplash.com/photo-1547683905-f686c993aae5?q=80&w=600&auto=format&fit=crop',
                 'created_at'      => now(),
                 'updated_at'      => now(),
             ],
@@ -82,7 +78,7 @@ class ProgramDonasiSeeder extends Seeder
                 'tanggal_mulai'   => '2026-06-01',
                 'tanggal_selesai' => '2026-12-01',
                 'status'          => 'aktif',
-                'gambar'          => $gambarKosong,
+                'gambar'          => 'https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=600&auto=format&fit=crop',
                 'created_at'      => now(),
                 'updated_at'      => now(),
             ],

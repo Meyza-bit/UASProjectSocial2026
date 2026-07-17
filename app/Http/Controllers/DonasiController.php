@@ -3,32 +3,33 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Donasi;
+use App\Models\DonasiDana;
+use App\Models\ProgramDonasi;
 
 class DonasiController extends Controller
 {
-    // Daftar tujuan pembayaran untuk setiap metode.
     private $infoPembayaran = [
-        'GoPay'      => ['tipe' => 'ewallet', 'tujuan' => '0812-3456-7890', 'label' => 'Nomor GoPay'],
-        'DANA'       => ['tipe' => 'ewallet', 'tujuan' => '0812-3456-7890', 'label' => 'Nomor DANA'],
-        'OVO'        => ['tipe' => 'ewallet', 'tujuan' => '0812-3456-7890', 'label' => 'Nomor OVO'],
-        'BCA'        => ['tipe' => 'bank', 'tujuan' => '8801 1234 5678', 'label' => 'No. Rekening BCA'],
-        'Mandiri'    => ['tipe' => 'bank', 'tujuan' => '113 0099 8877', 'label' => 'No. Rekening Mandiri'],
-        'BRI'        => ['tipe' => 'bank', 'tujuan' => '0099 0123 4567', 'label' => 'No. Rekening BRI'],
-        'BNI'        => ['tipe' => 'bank', 'tujuan' => '0123 4567 89', 'label' => 'No. Rekening BNI'],
-        'BSI'        => ['tipe' => 'bank', 'tujuan' => '7001 2345 678', 'label' => 'No. Rekening BSI'],
-        'CIMB Niaga' => ['tipe' => 'bank', 'tujuan' => '8000 1234 5678', 'label' => 'No. Rekening CIMB Niaga'],
+        'gopay'            => ['tipe' => 'ewallet', 'tujuan' => '0812-3456-7890', 'label' => 'Nomor GoPay'],
+        'dana'             => ['tipe' => 'ewallet', 'tujuan' => '0812-3456-7890', 'label' => 'Nomor DANA'],
+        'ovo'              => ['tipe' => 'ewallet', 'tujuan' => '0812-3456-7890', 'label' => 'Nomor OVO'],
+        'transfer_bca'     => ['tipe' => 'bank', 'tujuan' => '8801 1234 5678', 'label' => 'No. Rekening BCA'],
+        'transfer_mandiri' => ['tipe' => 'bank', 'tujuan' => '113 0099 8877', 'label' => 'No. Rekening Mandiri'],
+        'qris'             => ['tipe' => 'ewallet', 'tujuan' => 'Scan QRIS', 'label' => 'QRIS'],
     ];
 
-    // Fungsi untuk menampilkan halaman form donasi
-    public function create()
+    public function create($program = null)
     {
-        return view('donasi.create');
+        if ($program) {
+            session(['program_id' => $program]);
+        }
+
+        $programInfo = $program ? ProgramDonasi::find($program) : null;
+
+        return view('donasi.create', ['program' => $programInfo]);
     }
 
     public function pembayaran()
     {
-        // Cegah user mengakses halaman ini langsung tanpa mengisi form donasi dulu
         if (!session('donasi_id')) {
             return redirect()->route('donasi.create')
                 ->with('error', 'Silakan isi data donasi terlebih dahulu.');
@@ -40,20 +41,19 @@ class DonasiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'    => 'required|string|max:255',
             'amount'  => 'required|numeric|min:1000',
             'message' => 'nullable|string',
         ]);
 
-        // BUAT RECORD DI DATABASE DULU
-        $donasi = Donasi::create([
-            'name'    => $request->name,
-            'amount'  => $request->amount,
-            'message' => $request->message ?? '-',
-            'status'  => 'pending',
+        $donasi = DonasiDana::create([
+            'id_user'    => auth()->id(),
+            'id_program' => session('program_id'),
+            'nominal'    => $request->amount,
+            'pesan'      => $request->message ?? '-',
+            'status'     => 'pending',
+            'metode_bayar' => 'transfer_bca',
         ]);
 
-        // SIMPAN ID KE SESSION
         session(['donasi_id' => $donasi->id]);
 
         return redirect()->route('donasi.pembayaran');
@@ -61,14 +61,23 @@ class DonasiController extends Controller
 
     public function konfirmasi(Request $request)
     {
-        // Validasi agar tidak kosong
         $request->validate(['metode' => 'required']);
 
         $id = session('donasi_id');
-        $donasi = Donasi::find($id);
+        $donasi = DonasiDana::find($id);
 
         if ($donasi) {
-            $donasi->update(['metode_pembayaran' => $request->metode]);
+            $mapMetode = [
+                'GoPay'      => 'gopay',
+                'DANA'       => 'dana',
+                'OVO'        => 'ovo',
+                'BCA'        => 'transfer_bca',
+                'Mandiri'    => 'transfer_mandiri',
+            ];
+
+            $metode = $mapMetode[$request->metode] ?? 'transfer_bca';
+
+            $donasi->update(['metode_bayar' => $metode]);
             return redirect()->route('donasi.instruksi');
         }
 
@@ -78,14 +87,13 @@ class DonasiController extends Controller
     public function instruksi()
     {
         $id = session('donasi_id');
-        $donasi = Donasi::find($id);
+        $donasi = DonasiDana::find($id);
 
-        if (!$donasi || !$donasi->metode_pembayaran) {
+        if (!$donasi || !$donasi->metode_bayar) {
             return redirect()->route('donasi.create');
         }
 
-        // Ambil info tujuan pembayaran sesuai metode yang dipilih
-        $info = $this->infoPembayaran[$donasi->metode_pembayaran] ?? [
+        $info = $this->infoPembayaran[$donasi->metode_bayar] ?? [
             'tipe' => 'bank', 'tujuan' => '-', 'label' => 'Tujuan Pembayaran',
         ];
 
@@ -95,18 +103,15 @@ class DonasiController extends Controller
         ]);
     }
 
-    // FUNGSI BARU: dipanggil saat user klik "Kirim Bukti Pembayaran"
     public function selesai(Request $request)
     {
         $id = session('donasi_id');
-        $donasi = Donasi::find($id);
+        $donasi = DonasiDana::find($id);
 
-        // Perbaikan logika: Jika donasi TIDAK ditemukan, balikkan ke halaman create
         if (!$donasi) {
-             return redirect()->route('donasi.create')->with('error', 'Sesi habis, silakan mulai ulang.');
+            return redirect()->route('donasi.create')->with('error', 'Sesi habis, silakan mulai ulang.');
         }
 
-        // Validasi file bukti transfer
         $request->validate([
             'bukti' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ], [
@@ -115,28 +120,21 @@ class DonasiController extends Controller
             'bukti.max'      => 'Ukuran file maksimal 2MB.',
         ]);
 
-        // Simpan file bukti ke folder storage/app/public/bukti_pembayaran
         $path = $request->file('bukti')->store('bukti_pembayaran', 'public');
- 
-        // Update database sesuai nama kolom di Model
+
         $donasi->update([
             'bukti_pembayaran' => $path,
-            'status'           => 'menunggu_verifikasi',
+            'status'           => 'pending',
         ]);
- 
-        // Hapus session donasi agar transaksi selesai
+
         session()->forget('donasi_id');
- 
-        // Redirect ke halaman terima kasih dengan menyertakan ID donasi
+
         return redirect()->route('donasi.terimakasih', $donasi->id);
     }
- 
-    // Halaman konfirmasi setelah bukti transfer berhasil diupload
+
     public function terimakasih($id)
     {
-        $donasi = Donasi::findOrFail($id);
- 
-        // Dipanggil sesuai nama file view: donasi_terimakasih.blade.php
+        $donasi = DonasiDana::findOrFail($id);
         return view('donasi.donasi_terimakasih', ['donasi' => $donasi]);
     }
 }

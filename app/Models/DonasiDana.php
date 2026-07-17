@@ -20,6 +20,7 @@ class DonasiDana extends Model
         'pesan',
         'anonim',
         'status',
+        'bukti_pembayaran'
     ];
 
     protected $casts = [

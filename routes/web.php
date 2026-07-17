@@ -30,7 +30,7 @@ Route::get('/program', [ProgramController::class, 'index'])->name('program.index
 // ===== Modul Donasi =====
 Route::get('/donasi', [DonasiController::class, 'index'])->name('donasi.index');
 Route::middleware(['auth', 'role:user,admin'])->group(function () {
-    Route::get('/donasi/create', [DonasiController::class, 'create'])->name('donasi.create');
+    Route::get('/donasi/create/{program?}', [DonasiController::class, 'create'])->name('donasi.create');
     Route::post('/donasi/store', [DonasiController::class, 'store'])->name('donasi.store');
     Route::get('/donasi/pembayaran', [DonasiController::class, 'pembayaran'])->name('donasi.pembayaran');
     Route::get('/donasi/pembayaran-instruksi', [DonasiController::class, 'instruksi'])->name('donasi.instruksi');
@@ -77,6 +77,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Kelola Users
     Route::get('/users', [AdminController::class, 'users'])->name('users');
+
+    // Kelola Profil Admin
+    Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    Route::put('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/profile/password', [AdminController::class, 'updatePassword'])->name('profile.password');
 
 
 });

@@ -7,7 +7,7 @@
     <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-10">
         <div class="text-5xl mb-4">🙏</div>
 
-        <h1 class="text-2xl font-bold text-slate-800">Terima Kasih, {{ $donasi->name }}!</h1>
+        <h1 class="text-2xl font-bold text-slate-800">Terima Kasih, {{ $donasi->user->name ?? 'Donatur' }}!</h1>
         <p class="text-slate-600 mt-2">
             Bukti pembayaran Anda sudah kami terima dan sedang diverifikasi oleh tim kami.
         </p>
@@ -15,15 +15,21 @@
         <div class="bg-slate-50 rounded-xl p-6 mt-6 text-left space-y-2">
             <div class="flex justify-between text-sm">
                 <span class="text-slate-500">Nominal Donasi</span>
-                <span class="font-semibold text-slate-800">Rp {{ number_format($donasi->amount, 0, ',', '.') }}</span>
+                <span class="font-semibold text-slate-800">Rp {{ number_format($donasi->nominal, 0, ',', '.') }}</span>
             </div>
             <div class="flex justify-between text-sm">
                 <span class="text-slate-500">Metode Pembayaran</span>
-                <span class="font-semibold text-slate-800">{{ $donasi->metode_pembayaran }}</span>
+                <span class="font-semibold text-slate-800">{{ $donasi->metode_bayar }}</span>
             </div>
             <div class="flex justify-between text-sm">
                 <span class="text-slate-500">Status</span>
-                <span class="font-semibold text-amber-600">Menunggu Verifikasi</span>
+                @if($donasi->status == 'pending')
+                    <span class="font-semibold text-amber-600">Menunggu Verifikasi</span>
+                @elseif($donasi->status == 'verified')
+                    <span class="font-semibold text-emerald-600">Terverifikasi</span>
+                @else
+                    <span class="font-semibold text-rose-600">Ditolak</span>
+                @endif
             </div>
         </div>
 
