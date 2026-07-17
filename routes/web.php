@@ -10,6 +10,7 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\TransparansiController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\ProgramDonasiController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -82,6 +83,14 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
     Route::put('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
     Route::put('/profile/password', [AdminController::class, 'updatePassword'])->name('profile.password');
+
+    // Kelola Program Donasi
+    Route::get('/program-donasi', [ProgramDonasiController::class, 'index'])->name('program-donasi.index');
+    Route::get('/program-donasi/create', [ProgramDonasiController::class, 'create'])->name('program-donasi.create');
+    Route::post('/program-donasi', [ProgramDonasiController::class, 'store'])->name('program-donasi.store');
+    Route::get('/program-donasi/{program_donasi}/edit', [ProgramDonasiController::class, 'edit'])->name('program-donasi.edit');
+    Route::put('/program-donasi/{program_donasi}', [ProgramDonasiController::class, 'update'])->name('program-donasi.update');
+    Route::delete('/program-donasi/{program_donasi}', [ProgramDonasiController::class, 'destroy'])->name('program-donasi.destroy');
 
 
 });
