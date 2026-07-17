@@ -34,7 +34,7 @@ class AdminController extends Controller
 
     public function verifikasiDonasi(DonasiDana $donasi)
     {
-        $donasi->update(['status' => 'verified']);
+        $donasi->update(['status' => 'terverifikasi']);
         return back()->with('success', 'Donasi berhasil diverifikasi.');
     }
 
@@ -77,4 +77,39 @@ class AdminController extends Controller
         $feedback->delete();
         return back()->with('success', 'Feedback berhasil dihapus.');
     }
+
+    public function profile()
+    {
+        return view('admin.profile', ['user' => auth()->user()]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . auth()->id(),
+        ]);
+
+        auth()->user()->update($request->only('name', 'email'));
+
+        return redirect()->route('admin.profile')->with('success', 'Profil berhasil diperbarui.');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        if (!\Hash::check($request->current_password, auth()->user()->password)) {
+            return back()->withErrors(['current_password' => 'Password saat ini salah.']);
+        }
+
+        auth()->user()->update(['password' => \Hash::make($request->password)]);
+
+        return redirect()->route('admin.profile')->with('success', 'Password berhasil diperbarui.');
+    }
+
+
 }

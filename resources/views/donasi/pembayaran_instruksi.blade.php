@@ -10,21 +10,21 @@
             Menunggu Pembayaran
         </span>
         <h1 class="text-2xl font-bold text-slate-800 mt-4">Selesaikan Pembayaran</h1>
-        <p class="text-slate-600">Terima kasih, {{ $donasi->name }}. Mohon transfer dana Anda sebelum 24 jam.</p>
+        <p class="text-slate-600">Terima kasih, {{ $donasi->user->name ?? 'Donatur' }}. Mohon transfer dana Anda sebelum 24 jam.</p>
     </div>
 
     <!-- Ringkasan Nominal (FIX: ambil dari $donasi->amount, bukan hardcode) -->
     <div class="bg-slate-50 p-6 rounded-xl text-center mb-6">
         <p class="text-sm text-slate-500">Total yang harus dibayar</p>
         <h2 class="text-3xl font-bold text-emerald-900 mt-1">
-            Rp {{ number_format($donasi->amount, 0, ',', '.') }}
+            Rp {{ number_format($donasi->nominal, 0, ',', '.') }}
         </h2>
     </div>
 
     <!-- Tujuan Pembayaran (FIX: dinamis sesuai metode yang dipilih, dikirim controller via $info) -->
     <div class="border-2 border-dashed border-slate-300 p-6 rounded-xl mb-6">
         <p class="font-bold text-slate-700 mb-2">
-            {{ $info['label'] }} ({{ $donasi->metode_pembayaran }})
+            {{ $info['label'] }} ({{ $donasi->metode_bayar }})
         </p>
         <p class="text-2xl font-mono font-bold tracking-widest text-slate-900">
             {{ $info['tujuan'] }}
@@ -43,7 +43,7 @@
             </ul>
         @else
             <ul class="list-decimal list-inside text-slate-600 space-y-2 text-sm">
-                <li>Buka aplikasi {{ $donasi->metode_pembayaran }} Anda.</li>
+                <li>Buka aplikasi {{ $donasi->metode_bayar }} Anda.</li>
                 <li>Pilih menu Transfer/Kirim Dana.</li>
                 <li>Masukkan nomor tujuan di atas.</li>
                 <li>Pastikan nominal transfer sesuai.</li>

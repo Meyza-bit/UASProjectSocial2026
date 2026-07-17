@@ -69,11 +69,28 @@
                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Sistem Kendali Kontrol</span>
                 </div>
                 
-                <div class="flex items-center gap-2.5 text-xs font-bold text-slate-700 bg-slate-50 border border-slate-200/60 px-3 py-1.5 rounded-xl shadow-sm">
-                    <div class="w-6 h-6 rounded-lg bg-emerald-800 text-white flex items-center justify-center text-[10px] font-extrabold shadow-sm shadow-emerald-800/20">
-                        A
+                {{-- DROPDOWN ADMINISTRATOR --}}
+                <div class="relative" id="admin-menu-wrapper">
+                    <button type="button" onclick="document.getElementById('admin-dropdown').classList.toggle('hidden')"
+                        class="flex items-center gap-2.5 text-xs font-bold text-slate-700 bg-slate-50 border border-slate-200/60 px-3 py-1.5 rounded-xl shadow-sm hover:border-emerald-600 transition">
+                        <div class="w-6 h-6 rounded-lg bg-emerald-800 text-white flex items-center justify-center text-[10px] font-extrabold shadow-sm shadow-emerald-800/20">
+                            A
+                        </div>
+                        <span class="text-slate-800">Administrator</span>
+                        <span class="text-[9px] text-slate-400">▼</span>
+                    </button>
+
+                    <div id="admin-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white border border-slate-200/80 rounded-xl shadow-lg shadow-slate-200/60 overflow-hidden z-50">
+                        <a href="{{ route('admin.profile') }}" class="flex items-center gap-2 px-4 py-3 text-xs font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 transition">
+                            <span>🛡️</span> Profil Saya
+                        </a>
+                        <form action="{{ route('logout') }}" method="POST" class="border-t border-slate-100">
+                            @csrf
+                            <button type="submit" class="w-full flex items-center gap-2 px-4 py-3 text-xs font-bold text-rose-600 hover:bg-rose-50 transition">
+                                <span>🚪</span> Logout
+                            </button>
+                        </form>
                     </div>
-                    <span class="text-slate-800">Administrator</span>
                 </div>
             </header>
 
@@ -91,5 +108,16 @@
             </main>
         </div>
     </div>
+
+    {{-- SCRIPT: Tutup dropdown kalau klik di luar area --}}
+    <script>
+        document.addEventListener('click', function (e) {
+            const wrapper = document.getElementById('admin-menu-wrapper');
+            const dropdown = document.getElementById('admin-dropdown');
+            if (wrapper && dropdown && !wrapper.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+    </script>
 </body>
 </html>

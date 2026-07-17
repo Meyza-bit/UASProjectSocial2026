@@ -10,6 +10,17 @@
         <p class="text-slate-600 mt-2">Salurkan bantuan dana Anda secara amanah untuk mereka yang membutuhkan.</p>
     </div>
 
+    {{-- TAMBAHKAN INI: info program yang dipilih (kalau ada) --}}
+    @if($program)
+    <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-4 mb-6 flex items-center gap-3">
+        <span class="text-2xl">🎯</span>
+        <div>
+            <p class="text-xs text-emerald-700 font-semibold">Anda akan berdonasi untuk program:</p>
+            <p class="text-sm font-bold text-emerald-900">{{ $program->judul }}</p>
+        </div>
+    </div>
+    @endif
+
     {{-- Form Container --}}
     <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
         {{-- Ganti action="#" menjadi route('donasi.store') --}}
