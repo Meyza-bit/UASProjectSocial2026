@@ -118,7 +118,7 @@
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($programs as $item)
                 <div class="bg-white rounded-2xl overflow-hidden border border-slate-200/60 shadow-sm hover:shadow-lg transition flex flex-col">
-                    <img src="{{ $item->gambar ?: 'https://images.unsplash.com/photo-1594897030264-ab7d87efc473?q=80&w=600&auto=format&fit=crop' }}" 
+                    <img src="{{ $item->gambar ? (str_starts_with($item->gambar, 'http') ? $item->gambar : asset('storage/'.$item->gambar)) : 'https://images.unsplash.com/photo-1594897030264-ab7d87efc473?q=80&w=600&auto=format&fit=crop' }}" 
                          alt="{{ $item->judul }}" class="h-48 w-full object-cover">
                     <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
                         <div class="space-y-2">
