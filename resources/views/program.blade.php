@@ -160,7 +160,7 @@
                         🚨 Darurat
                     </span>
                     @endif
-                    <img src="{{ $item->gambar ?: 'https://images.unsplash.com/photo-1594897030264-ab7d87efc473?q=80&w=600&auto=format&fit=crop' }}" 
+                    <img src="{{ $item->gambar ? (str_starts_with($item->gambar, 'http') ? $item->gambar : asset('storage/'.$item->gambar)) : 'https://images.unsplash.com/photo-1594897030264-ab7d87efc473?q=80&w=600&auto=format&fit=crop' }}" 
                          alt="{{ $item->judul }}" class="h-48 w-full object-cover group-hover:scale-102 transition-transform duration-300">
                 </div>
 
