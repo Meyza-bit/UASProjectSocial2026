@@ -34,7 +34,7 @@ class AdminController extends Controller
 
     public function verifikasiDonasi(DonasiDana $donasi)
     {
-        $donasi->update(['status' => 'verified']);
+        $donasi->update(['status' => 'terverifikasi']);
         return back()->with('success', 'Donasi berhasil diverifikasi.');
     }
 
