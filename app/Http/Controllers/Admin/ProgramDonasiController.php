@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ProgramDonasi;
 use App\Models\TargetPenerima;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProgramDonasiController extends Controller
 {
@@ -27,7 +28,7 @@ class ProgramDonasiController extends Controller
             'id_target'       => 'nullable|exists:target_penerima,id_target',
             'judul'           => 'required|string|max:255',
             'deskripsi'       => 'required|string',
-            'kategori'        => 'required|string|max:100',
+            'kategori'        => 'required|in:Banjir,Gempa,Erupsi,Kebakaran,Lainnya',
             'target_dana'     => 'required|integer|min:1000',
             'dana_terkumpul'  => 'nullable|integer|min:0',
             'tanggal_mulai'   => 'required|date',
@@ -42,7 +43,7 @@ class ProgramDonasiController extends Controller
         }
 
         ProgramDonasi::create([
-            'id_target'       => $request->id_target,
+            'id_target'       => $request->id_target ?: null,
             'judul'           => $request->judul,
             'deskripsi'       => $request->deskripsi,
             'kategori'        => $request->kategori,
@@ -72,7 +73,7 @@ class ProgramDonasiController extends Controller
             'id_target'       => 'nullable|exists:target_penerima,id_target',
             'judul'           => 'required|string|max:255',
             'deskripsi'       => 'required|string',
-            'kategori'        => 'required|string|max:100',
+            'kategori'        => 'required|in:Banjir,Gempa,Erupsi,Kebakaran,Lainnya',
             'target_dana'     => 'required|integer|min:1000',
             'dana_terkumpul'  => 'nullable|integer|min:0',
             'tanggal_mulai'   => 'required|date',
@@ -87,10 +88,11 @@ class ProgramDonasiController extends Controller
             'tanggal_selesai', 'status',
         ]);
 
+        $data['id_target'] = $request->id_target ?: null;
+
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama kalau ada dan itu file lokal (bukan URL eksternal)
             if ($program_donasi->gambar && !str_starts_with($program_donasi->gambar, 'http')) {
-                \Storage::disk('public')->delete($program_donasi->gambar);
+                Storage::disk('public')->delete($program_donasi->gambar);
             }
             $data['gambar'] = $request->file('gambar')->store('program_gambar', 'public');
         }
@@ -103,7 +105,7 @@ class ProgramDonasiController extends Controller
     public function destroy(ProgramDonasi $program_donasi)
     {
         if ($program_donasi->gambar && !str_starts_with($program_donasi->gambar, 'http')) {
-            \Storage::disk('public')->delete($program_donasi->gambar);
+            Storage::disk('public')->delete($program_donasi->gambar);
         }
 
         $program_donasi->delete();

@@ -17,8 +17,12 @@
 <div class="grid grid-cols-2 gap-4">
     <div>
         <label class="block text-sm font-semibold text-slate-700 mb-2">Kategori</label>
-        <input type="text" name="kategori" value="{{ old('kategori', $p->kategori ?? '') }}" placeholder="Bencana Alam / Panti Sosial" required
-            class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 outline-none">
+        <select name="kategori" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 outline-none">
+            <option value="">-- Pilih Kategori --</option>
+            @foreach(['Banjir', 'Gempa', 'Erupsi', 'Kebakaran', 'Lainnya'] as $kat)
+                <option value="{{ $kat }}" {{ old('kategori', $p->kategori ?? '') == $kat ? 'selected' : '' }}>{{ $kat }}</option>
+            @endforeach
+        </select>
         @error('kategori') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
     </div>
 

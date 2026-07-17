@@ -6,23 +6,33 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('program_donasi', function (Blueprint $table) {
-            $table->string('id_target')->nullable()->change();
+            $table->dropForeign(['id_target']);
+        });
+
+        Schema::table('program_donasi', function (Blueprint $table) {
+            $table->unsignedBigInteger('id_target')->nullable()->change();
+        });
+
+        Schema::table('program_donasi', function (Blueprint $table) {
+            $table->foreign('id_target')->references('id_target')->on('target_penerima')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('program_donasi', function (Blueprint $table) {
-            $table->string('id_target')->nullable(false)->change();
+            $table->dropForeign(['id_target']);
+        });
+
+        Schema::table('program_donasi', function (Blueprint $table) {
+            $table->unsignedBigInteger('id_target')->nullable(false)->change();
+        });
+
+        Schema::table('program_donasi', function (Blueprint $table) {
+            $table->foreign('id_target')->references('id_target')->on('target_penerima')->onDelete('cascade');
         });
     }
 };
