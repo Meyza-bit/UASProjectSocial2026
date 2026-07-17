@@ -41,6 +41,12 @@
                     <span class="text-sm transition-transform group-hover:scale-110">📦</span> 
                     Donasi Barang
                 </a>
+
+                <a href="/admin/program-donasi" 
+                   class="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-xl transition-all group {{ Request::is('admin/program-donasi*') ? 'bg-emerald-800 text-white shadow-md shadow-emerald-900/20' : 'hover:bg-slate-800/60 hover:text-white' }}">
+                    <span class="text-sm transition-transform group-hover:scale-110">📋</span> 
+                    Kelola Program
+                </a>
                 
                 <a href="/admin/feedback" 
                    class="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-xl transition-all group {{ Request::is('admin/feedback') ? 'bg-emerald-800 text-white shadow-md shadow-emerald-900/20' : 'hover:bg-slate-800/60 hover:text-white' }}">
