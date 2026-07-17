@@ -8,6 +8,8 @@ use App\Models\DonasiBarang;
 use App\Models\Feedback;
 use App\Models\ProgramDonasi;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -34,7 +36,7 @@ class AdminController extends Controller
 
     public function verifikasiDonasi(DonasiDana $donasi)
     {
-        $donasi->update(['status' => 'terverifikasi']);
+        $donasi->update(['status' => 'verified']);
         return back()->with('success', 'Donasi berhasil diverifikasi.');
     }
 
@@ -86,7 +88,7 @@ class AdminController extends Controller
     public function updateProfile(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name'  => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . auth()->id(),
         ]);
 
@@ -99,17 +101,15 @@ class AdminController extends Controller
     {
         $request->validate([
             'current_password' => 'required',
-            'password' => 'required|min:8|confirmed',
+            'password'         => 'required|min:8|confirmed',
         ]);
 
-        if (!\Hash::check($request->current_password, auth()->user()->password)) {
+        if (! Hash::check($request->current_password, auth()->user()->password)) {
             return back()->withErrors(['current_password' => 'Password saat ini salah.']);
         }
 
-        auth()->user()->update(['password' => \Hash::make($request->password)]);
+        auth()->user()->update(['password' => Hash::make($request->password)]);
 
         return redirect()->route('admin.profile')->with('success', 'Password berhasil diperbarui.');
     }
-
-
 }

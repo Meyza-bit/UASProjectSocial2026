@@ -24,10 +24,10 @@
             </div>
             
             <nav class="flex-1 p-4 space-y-1.5 z-10">
-                <a href="/admin" 
-                   class="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-xl transition-all group {{ Request::is('admin') ? 'bg-emerald-800 text-white shadow-md shadow-emerald-900/20' : 'hover:bg-slate-800/60 hover:text-white' }}">
-                    <span class="text-sm transition-transform group-hover:scale-110">📊</span> 
-                    Dashboard Utama
+                <a href="/admin/dashboard" 
+                 class="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-xl transition-all group {{ Request::is('admin/dashboard') ? 'bg-emerald-800 text-white shadow-md shadow-emerald-900/20' : 'hover:bg-slate-800/60 hover:text-white' }}">
+                  <span class="text-sm transition-transform group-hover:scale-110">📊</span> 
+                  Dashboard Utama
                 </a>
                 
                 <a href="/admin/donasi-dana" 

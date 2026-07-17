@@ -21,8 +21,8 @@
                     <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}" class="bg-emerald-800 hover:bg-emerald-700 text-white text-center px-8 py-3.5 rounded-xl font-bold text-base transition shadow-lg shadow-emerald-800/20">
                         ♥ Donasi Sekarang
                     </a>
-                    <a href="#program-pilihan" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-center px-8 py-3.5 rounded-xl font-semibold text-base transition">
-                        Lihat Program
+                    <a href="{{ Route::has('program.index') ? route('program.index') : '#program-pilihan' }}" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-center px-8 py-3.5 rounded-xl font-semibold text-base transition">
+                       Lihat Program
                     </a>
                 </div>
             </div>
