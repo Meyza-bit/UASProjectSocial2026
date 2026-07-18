@@ -10,31 +10,44 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::insert([
+        // Pindahkan data ke dalam array terlebih dahulu
+        $users = [
             [
-                'name'       => 'Budi Donatur',
-                'email'      => 'budi@donasi.com',
-                'password'   => Hash::make('1234'),
-                'role'       => 'user',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'name'     => 'Admin',
+                'email'    => 'admin@donasi.com',
+                'password' => Hash::make('admin123'), // Silakan ganti password admin di sini
+                'role'     => 'admin',
             ],
             [
-                'name'       => 'Siti Rahma',
-                'email'      => 'siti@donasi.com',
-                'password'   => Hash::make('password'),
-                'role'       => 'user',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'name'     => 'Budi Donatur',
+                'email'    => 'budi@donasi.com',
+                'password' => Hash::make('1234'),
+                'role'     => 'user',
             ],
             [
-                'name'       => 'Andi Saputra',
-                'email'      => 'andi@donasi.com',
-                'password'   => Hash::make('password'),
-                'role'       => 'user',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'name'     => 'Siti Rahma',
+                'email'    => 'siti@donasi.com',
+                'password' => Hash::make('password'),
+                'role'     => 'user',
             ],
-        ]);
+            [
+                'name'     => 'Andi Saputra',
+                'email'    => 'andi@donasi.com',
+                'password' => Hash::make('password'),
+                'role'     => 'user',
+            ],
+        ];
+
+        // Loping data untuk disimpan dengan aman
+        foreach ($users as $userData) {
+            User::updateOrCreate(
+                ['email' => $userData['email']], // Kunci pengecekan berdasarkan email unik
+                [
+                    'name'     => $userData['name'],
+                    'password' => $userData['password'],
+                    'role'     => $userData['role'],
+                ]
+            );
+        }
     }
 }

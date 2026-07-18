@@ -9,7 +9,8 @@ class DonasiBarang extends Model
 {
     use HasFactory;
 
-    protected $table = 'donasi_barangs';
+    // UBAH BARIS INI: Hilangkan huruf 's' di belakangnya
+    protected $table = 'donasi_barang';
 
     protected $fillable = [
         'program_donasi_id',
@@ -19,16 +20,18 @@ class DonasiBarang extends Model
         'nomor_telepon',
         'status',
         'catatan',
+        'tampil_publik',
     ];
 
     protected $casts = [
+        'tampil_publik' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
 
     // ==================== RELASI ====================
 
-    // Belongs to ProgramDonasi (BE1 punya ini)
+    // Belongs to ProgramDonasi
     public function programDonasi()
     {
         return $this->belongsTo(ProgramDonasi::class, 'program_donasi_id');
@@ -46,7 +49,6 @@ class DonasiBarang extends Model
         return $this->hasMany(ItemBarang::class, 'donasi_barang_id');
     }
 
-
     // Filter berdasarkan status
     public function scopeStatus($query, $status)
     {
@@ -63,5 +65,11 @@ class DonasiBarang extends Model
     public function scopeDiterima($query)
     {
         return $query->where('status', 'diterima');
+    }
+
+    // Filter yang boleh ditampilkan ke publik
+    public function scopeTampilPublik($query)
+    {
+        return $query->where('tampil_publik', true);
     }
 }

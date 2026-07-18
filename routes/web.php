@@ -43,7 +43,7 @@ Route::middleware(['auth', 'role:user,admin'])->group(function () {
 // ===== Modul Barang =====
 Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
 Route::middleware(['auth', 'role:user,admin'])->group(function () {
-    Route::get('/barang/create', [BarangController::class, 'create'])->name('barang.create');
+    Route::get('/barang/create/{program?}', [BarangController::class, 'create'])->name('barang.create');
     Route::post('/barang/store', [BarangController::class, 'store'])->name('barang.store');
     Route::get('/barang/sukses/{id}', [BarangController::class, 'sukses'])->name('barang.sukses');
 });
@@ -83,6 +83,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
     Route::put('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
     Route::put('/profile/password', [AdminController::class, 'updatePassword'])->name('profile.password');
+
+    // Kelola Transparansi
+    Route::get('/transparansi', [TransparansiController::class, 'admin'])->name('transparansi.index');
+    Route::post('/transparansi/dana/{donasi}/toggle', [TransparansiController::class, 'toggleDana'])->name('transparansi.toggle-dana');
+    Route::post('/transparansi/barang/{barang}/toggle', [TransparansiController::class, 'toggleBarang'])->name('transparansi.toggle-barang');
 
     // Kelola Program Donasi
     Route::get('/program-donasi', [ProgramDonasiController::class, 'index'])->name('program-donasi.index');

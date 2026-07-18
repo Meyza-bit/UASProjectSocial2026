@@ -2,44 +2,93 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProgramDonasi;
 use App\Models\DonasiDana;
 use App\Models\DonasiBarang;
+use App\Models\PenyaluranDana;
 
 class TransparansiController extends Controller
 {
     public function index()
     {
-        $donasiDana = DonasiDana::with(['user', 'program', 'targetPenerima'])
+        // Daftar donasi dana yang sudah terverifikasi & boleh tampil publik
+        $donasiMasuk = DonasiDana::with('user')
+            ->where('status', 'verified')
+            ->tampilPublik()
+            ->latest()
+            ->take(20)
+            ->get();
+
+        // Daftar donasi barang yang sudah diterima & boleh tampil publik
+        $donasiBarang = DonasiBarang::with(['user', 'programDonasi', 'itemBarang'])
+            ->diterima()
+            ->tampilPublik()
+            ->latest()
+            ->take(20)
+            ->get();
+
+        // Riwayat penyaluran dana ke program/penerima
+        $penyaluran = PenyaluranDana::with('program')
+            ->latest('tanggal_penyaluran')
+            ->take(20)
+            ->get();
+
+        // Ringkasan angka total (tetap hitung dari SEMUA yang verified/diterima,
+        // bukan cuma yang tampil publik, biar angkanya tetap akurat)
+        $totalDanaTerkumpul = DonasiDana::where('status', 'verified')->sum('nominal');
+        $totalDanaTersalurkan = PenyaluranDana::sum('jumlah');
+        $totalDonatur = DonasiDana::where('status', 'verified')->distinct('id_user')->count('id_user');
+        $totalDonasiBarang = DonasiBarang::diterima()->count();
+
+        return view('transparansi', compact(
+            'donasiMasuk',
+            'donasiBarang',
+            'penyaluran',
+            'totalDanaTerkumpul',
+            'totalDanaTersalurkan',
+            'totalDonatur',
+            'totalDonasiBarang'
+        ));
+    }
+
+    /**
+     * Halaman admin: semua donasi dana verified + barang diterima,
+     * lengkap dengan status tampil_publik-nya, buat di-toggle.
+     * (Sengaja TIDAK pakai scope tampilPublik() di sini, karena admin
+     * justru perlu lihat yang lagi disembunyikan juga supaya bisa dimunculkan lagi.)
+     */
+    public function admin()
+    {
+        $dana = DonasiDana::with('user')
             ->where('status', 'verified')
             ->latest()
-            ->get();
+            ->paginate(15, ['*'], 'dana_page');
 
-        $donasiBarang = DonasiBarang::with(['user', 'programDonasi', 'itemBarang'])
-            ->where('status', 'diterima')
+        $barang = DonasiBarang::with(['programDonasi', 'itemBarang'])
+            ->diterima()
             ->latest()
-            ->get();
+            ->paginate(15, ['*'], 'barang_page');
 
-        $totalDana = $donasiDana->sum('nominal');
-        $jumlahProgram = $donasiDana->pluck('id_program')->unique()->count();
+        return view('admin.transparansi', compact('dana', 'barang'));
+    }
 
-        $ringkasan = [
-            'total_donasi'    => 'Rp ' . number_format($totalDana, 0, ',', '.'),
-            'dana_disalurkan' => 'Rp ' . number_format($totalDana, 0, ',', '.'),
-            'program_dibantu' => $jumlahProgram,
-            'donatur_aktif'   => $donasiDana->count() + $donasiBarang->count(),
-        ];
+    /**
+     * Toggle tampil/sembunyi untuk satu entri donasi dana.
+     */
+    public function toggleDana(DonasiDana $donasi)
+    {
+        $donasi->update(['tampil_publik' => ! $donasi->tampil_publik]);
 
-        $riwayat_penyaluran = $donasiDana->map(function ($d) {
-            return [
-                'tanggal'  => $d->created_at ? $d->created_at->format('d M Y') : '-',
-                'program'  => $d->program ? $d->program->judul : '-',
-                'kategori' => $d->program ? $d->program->kategori : '-',
-                'jumlah'   => 'Rp ' . number_format($d->nominal, 0, ',', '.'),
-                'penerima' => $d->targetPenerima ? $d->targetPenerima->nama_target : '-',
-                'status'   => 'Terverifikasi',
-            ];
-        })->toArray();
+        return back()->with('success', 'Status tampilan donasi dana berhasil diubah.');
+    }
 
-        return view('transparansi', compact('ringkasan', 'riwayat_penyaluran'));
+    /**
+     * Toggle tampil/sembunyi untuk satu entri donasi barang.
+     */
+    public function toggleBarang(DonasiBarang $barang)
+    {
+        $barang->update(['tampil_publik' => ! $barang->tampil_publik]);
+
+        return back()->with('success', 'Status tampilan donasi barang berhasil diubah.');
     }
 }

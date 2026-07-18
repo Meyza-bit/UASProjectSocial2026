@@ -48,7 +48,7 @@ class AdminController extends Controller
 
     public function donasiBarang()
     {
-        $barang = DonasiBarang::latest()->paginate(20);
+        $barang = DonasiBarang::with('itemBarang')->latest()->paginate(20);
         return view('admin.donasi-barang', compact('barang'));
     }
 

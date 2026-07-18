@@ -138,12 +138,19 @@
                             </div>
                         </div>
 
-                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
                             <div>
                                 <p class="text-[9px] text-slate-400 uppercase tracking-wider font-semibold">Target</p>
                                 <p class="text-sm font-bold text-slate-700">Rp {{ number_format($item->target_dana, 0, ',', '.') }}</p>
                             </div>
-                            <a href="{{ route('donasi.create', ['program' => $item->id]) }}" class="bg-emerald-800 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm">Donasi</a>
+                            <div class="flex items-center gap-1.5">
+                                <a href="{{ route('barang.create', ['program' => $item->id]) }}" class="bg-white hover:bg-slate-50 text-emerald-800 border border-slate-200 px-3 py-2 rounded-xl text-[11px] font-bold transition shadow-sm whitespace-nowrap">
+                                    Donasi Barang
+                                </a>
+                                <a href="{{ route('donasi.create', ['program' => $item->id]) }}" class="bg-emerald-800 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-[11px] font-bold transition shadow-sm whitespace-nowrap">
+                                    Donasi Dana
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
