@@ -47,6 +47,7 @@
                     <thead class="bg-slate-50 text-slate-400 font-bold uppercase text-[10px] border-b border-slate-200">
                         <tr>
                             <th class="p-4 pl-6">Donatur</th>
+                            <th class="p-4">Program</th>
                             <th class="p-4">Nominal</th>
                             <th class="p-4">Metode</th>
                             <th class="p-4 pr-6">Waktu</th>
@@ -58,13 +59,14 @@
                             <td class="p-4 pl-6 font-semibold text-slate-800">
                                 {{ $d->anonim ? 'Anonim' : ($d->user->name ?? 'Donatur') }}
                             </td>
+                            <td class="p-4 text-emerald-700 font-semibold">{{ $d->program->judul ?? 'Program Umum' }}</td>
                             <td class="p-4 font-bold text-emerald-800">Rp {{ number_format($d->nominal, 0, ',', '.') }}</td>
                             <td class="p-4 uppercase text-slate-500">{{ str_replace('_', ' ', $d->metode_bayar) }}</td>
                             <td class="p-4 pr-6 text-slate-400">{{ $d->created_at->format('d M Y, H:i') }}</td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="p-8 text-center text-slate-400">Belum ada donasi terverifikasi.</td>
+                            <td colspan="5" class="p-8 text-center text-slate-400">Belum ada donasi terverifikasi.</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -115,26 +117,42 @@
         </div>
     </section>
 
-    {{-- SECTION 3: RIWAYAT PENYALURAN DANA --}}
+    {{-- SECTION 3: RIWAYAT PENYALURAN (GABUNGAN DANA & BARANG) --}}
     <section class="space-y-4">
-        <h2 class="text-xl font-bold text-slate-900">🚚 Riwayat Penyaluran Dana</h2>
+        <h2 class="text-xl font-bold text-slate-900">🚚 Riwayat Penyaluran</h2>
         <div class="space-y-4">
-            @forelse($penyaluran as $p)
+            @forelse($riwayatPenyaluran as $p)
             <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-5 flex flex-col sm:flex-row gap-4">
                 @if($p->bukti_penyaluran)
                 <img src="{{ asset('storage/'.$p->bukti_penyaluran) }}" class="w-full sm:w-32 h-32 object-cover rounded-xl border border-slate-200">
                 @endif
                 <div class="flex-1 space-y-1">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-bold text-sm text-slate-900">{{ $p->program->judul ?? 'Program tidak ditemukan' }}</h3>
-                        <span class="text-[11px] text-slate-400">{{ $p->tanggal_penyaluran->format('d M Y') }}</span>
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            @if($p->tipe == 'dana')
+                                <span class="text-[9px] font-bold uppercase px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700">💳 Dana</span>
+                            @else
+                                <span class="text-[9px] font-bold uppercase px-2 py-0.5 rounded-md bg-amber-50 text-amber-700">📦 Barang</span>
+                            @endif
+                            <h3 class="font-bold text-sm text-slate-900">{{ $p->program->judul ?? 'Program tidak ditemukan' }}</h3>
+                        </div>
+                        <span class="text-[11px] text-slate-400 shrink-0">{{ $p->tanggal_penyaluran->format('d M Y') }}</span>
                     </div>
-                    <p class="text-emerald-800 font-bold text-sm">Rp {{ number_format($p->jumlah, 0, ',', '.') }}</p>
-                    <p class="text-xs text-slate-500 leading-relaxed">{{ $p->keterangan }}</p>
+
+                    @if($p->tipe == 'dana')
+                        <p class="text-emerald-800 font-bold text-sm">Rp {{ number_format($p->jumlah, 0, ',', '.') }}</p>
+                        <p class="text-xs text-slate-500 leading-relaxed">{{ $p->keterangan }}</p>
+                    @else
+                        <p class="text-amber-700 font-bold text-sm">{{ $p->nama_barang }} · {{ $p->jumlah }} {{ $p->satuan }}</p>
+                        @if($p->penerima)
+                        <p class="text-xs text-slate-600">Diserahkan kepada: <span class="font-semibold">{{ $p->penerima }}</span></p>
+                        @endif
+                        <p class="text-xs text-slate-500 leading-relaxed">{{ $p->keterangan }}</p>
+                    @endif
                 </div>
             </div>
             @empty
-            <p class="text-slate-400 text-center py-8">Belum ada riwayat penyaluran dana.</p>
+            <p class="text-slate-400 text-center py-8">Belum ada riwayat penyaluran.</p>
             @endforelse
         </div>
     </section>
