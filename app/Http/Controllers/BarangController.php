@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\DonasiBarang;
+use App\Models\ItemBarang;
+use App\Models\ProgramDonasi;
 
 class BarangController extends Controller
 {
@@ -12,67 +15,64 @@ class BarangController extends Controller
         return view('barang.index');
     }
 
-    // 2. Menampilkan Form dari PM
-    public function create()
+    // 2. Menampilkan Form Donasi Barang
+    public function create($program = null)
     {
-        return view('barang.create');
+        $programs = ProgramDonasi::all();
+        $selectedProgram = $program ? ProgramDonasi::find($program) : null;
+
+        return view('barang.create', compact('programs', 'selectedProgram'));
     }
 
-    // 3. Menyimpan Data dari Form PM
+    // 3. Menyimpan Data dari Form
     public function store(Request $request)
     {
-        // Validasi input agar data wajib diisi dengan benar
-        // PERBAIKAN: Validasi 'program' dan 'prioritas' dihapus karena tidak ada di form HTML Anda
         $request->validate([
+            'program_donasi_id' => 'required|exists:program_donasi,id',
             'kategori'          => 'required',
             'nama_pengirim'     => 'required|string|max:255',
             'hp_pengirim'       => 'required|string|max:20',
             'alamat_pengirim'   => 'required|string',
-            'ekspedisi'         => 'required',
             'barang'            => 'required|array|min:1',
             'barang.*.nama'     => 'required|string|max:255',
             'barang.*.jumlah'   => 'required|numeric|min:1',
             'barang.*.satuan'   => 'required|string',
         ]);
 
-        $namaPengirim = $request->input('nama_pengirim');
-        
-        // PERBAIKAN: Memberikan nilai default karena input program tidak ada di form HTML Anda
-        $namaProgram = 'Program Donasi Logistik';
+        // Simpan data pengiriman (tabel donasi_barang)
+        $donasiBarang = DonasiBarang::create([
+            'program_donasi_id' => $request->program_donasi_id,
+            'user_id'           => auth()->id(),
+            'nama_pengirim'     => $request->nama_pengirim,
+            'alamat_pengirim'   => $request->alamat_pengirim,
+            'nomor_telepon'     => $request->hp_pengirim,
+            'status'            => 'pending',
+            'catatan'           => 'Ekspedisi: ' . $request->ekspedisi,
+        ]);
 
-        // Mengambil array daftar barang dinamis yang ditambah lewat tombol JavaScript
-        $daftarBarang = $request->input('barang');
-        
-        // Logika looping untuk membaca barang satu per satu
-        foreach ($daftarBarang as $item) {
-            $namaBarang   = $item['nama'];
-            $jumlahBarang = $item['jumlah'];
-            $satuanBarang = $item['satuan'];
+        // Simpan setiap barang ke tabel item_barangs
+        foreach ($request->barang as $item) {
+            // Pastikan kondisi berformat lowercase dan snake_case agar lolos CHECK constraint
+            $kondisi = isset($item['kondisi']) ? strtolower(str_replace(' ', '_', $item['kondisi'])) : 'layak_pakai';
+
+            ItemBarang::create([
+                'donasi_barang_id' => $donasiBarang->id,
+                'nama_barang'      => $item['nama'],
+                'kategori'         => $request->kategori,
+                'jumlah'           => $item['jumlah'],
+                'satuan'           => $item['satuan'],
+                'kondisi'          => $kondisi,
+                'deskripsi'        => null,
+            ]);
         }
 
-        // SESUAI ROUTE: Diarahkan ke 'barang.sukses' membawa ID acak dan data form lewat parameter URL
-        return redirect()->route('barang.sukses', [
-            'id'        => rand(100, 999), // ID referensi acak sementara
-            'nama'      => $namaPengirim,
-            'program'   => $namaProgram,
-            'ekspedisi' => $request->input('ekspedisi'),
-            'hp'        => $request->input('hp_pengirim'),
-        ]);
+        return redirect()->route('barang.sukses', $donasiBarang->id);
     }
 
-    // 4. Menampilkan Halaman Sukses (Disamakan dengan web.php Anda)
-    public function sukses(Request $request, $id)
+    // 4. Menampilkan Halaman Sukses
+    public function sukses($id)
     {
-        // Membuat object tiruan untuk dikirim ke view agar sesuai dengan variabel di barang-sukses.blade.php
-        $pengiriman = (object) [
-            'id'              => $id,
-            'nama_pengirim'   => $request->query('nama'),
-            'program'         => $request->query('program'),
-            'ekspedisi'       => $request->query('ekspedisi'),
-            'hp_pengirim'     => $request->query('hp'),
-        ];
-
-        // PERBAIKAN: Mengarahkan ke view di dalam folder barang (barang/barang-sukses.blade.php)
+        $pengiriman = DonasiBarang::with(['programDonasi', 'itemBarang'])->findOrFail($id);
         return view('barang.barang-sukses', compact('pengiriman'));
     }
 }

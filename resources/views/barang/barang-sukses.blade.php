@@ -19,24 +19,33 @@
         </div>
         <div class="flex justify-between text-sm">
             <span class="text-slate-500">Tujuan Program</span>
-            <span class="font-bold text-slate-800 text-right">{{ $pengiriman->program }}</span>
+            <span class="font-bold text-slate-800 text-right">{{ $pengiriman->programDonasi->judul ?? '-' }}</span>
         </div>
         <div class="flex justify-between text-sm">
-            <span class="text-slate-500">Ekspedisi</span>
-            <span class="font-bold text-slate-800">{{ $pengiriman->ekspedisi }}</span>
+            <span class="text-slate-500">No. Telepon</span>
+            <span class="font-bold text-slate-800">{{ $pengiriman->nomor_telepon }}</span>
         </div>
         <div class="flex justify-between text-sm">
             <span class="text-slate-500">Status</span>
-            <span class="font-bold text-amber-600">Menunggu Verifikasi Tim</span>
+            @if($pengiriman->status == 'pending')
+                <span class="font-bold text-amber-600">Menunggu Verifikasi Tim</span>
+            @elseif($pengiriman->status == 'diterima')
+                <span class="font-bold text-emerald-600">Diterima Tim Kami</span>
+            @else
+                <span class="font-bold text-rose-600">Ditolak</span>
+            @endif
         </div>
     </div>
 
-    @if($pengiriman->ekspedisi === 'Antar Langsung')
-    <div class="p-4 bg-emerald-50 border border-emerald-100 rounded-xl text-sm text-emerald-800 mb-8 text-left">
-        ✦ Karena Anda memilih <strong>Antar Langsung</strong>, mohon tunggu konfirmasi alamat penjemputan
-        dari tim kami via WhatsApp ke nomor {{ $pengiriman->hp_pengirim }}.
+    <div class="bg-slate-50 rounded-2xl p-6 mb-8 text-left space-y-2">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Daftar Barang</p>
+        @foreach($pengiriman->itemBarang as $item)
+        <div class="flex justify-between text-sm">
+            <span class="text-slate-700">{{ $item->nama_barang }}</span>
+            <span class="font-semibold text-slate-800">{{ $item->jumlah }} {{ $item->satuan }}</span>
+        </div>
+        @endforeach
     </div>
-    @endif
 
     <a href="{{ route('barang.index') }}"
         class="inline-block bg-emerald-800 hover:bg-emerald-900 text-white font-bold px-8 py-3.5 rounded-xl transition shadow-md">

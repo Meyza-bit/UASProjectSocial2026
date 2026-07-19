@@ -38,11 +38,11 @@
                 <tbody class="divide-y divide-slate-100 font-medium text-slate-600">
                     @forelse($barang as $b)
                     <tr class="hover:bg-slate-50/50 transition-colors">
-                        {{-- KOLOM 1: NAMA BARANG & IDENTITAS --}}
+                        {{-- KOLOM 1: DAFTAR BARANG & IDENTITAS PENGIRIM --}}
                         <td class="p-4 pl-6">
                             <div class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
                                 <span class="text-base">📦</span>
-                                {{ $b->nama_barang ?? 'Logistik Bantuan' }}
+                                {{ $b->programDonasi->judul ?? 'Program Umum' }}
                             </div>
                             <div class="text-[10px] text-slate-400 mt-0.5 flex items-center gap-1">
                                 <span>👤 Pengirim:</span> 
@@ -50,11 +50,17 @@
                             </div>
                         </td>
                         
-                        {{-- KOLOM 2: JUMLAH KONDISI --}}
+                        {{-- KOLOM 2: RINCIAN BARANG (pcs/karung/kg dst) --}}
                         <td class="p-4">
-                            <span class="inline-flex items-center px-2 py-1 rounded-lg bg-slate-100 font-bold text-slate-700 text-[11px]">
-                                🔢 {{ $b->jumlah ?? '1 Paket' }}
-                            </span>
+                            <div class="flex flex-wrap gap-1.5 max-w-xs">
+                                @forelse($b->itemBarang as $item)
+                                <span class="inline-flex items-center px-2 py-1 rounded-lg bg-slate-100 font-bold text-slate-700 text-[11px]" title="Kondisi: {{ $item->kondisi }}">
+                                    🔢 {{ $item->nama_barang }} — {{ $item->jumlah }} {{ $item->satuan }}
+                                </span>
+                                @empty
+                                <span class="text-[10px] text-slate-400 italic">Tidak ada rincian barang</span>
+                                @endforelse
+                            </div>
                             @if(isset($b->catatan) && $b->catatan !== '')
                                 <p class="text-[10px] text-slate-400 mt-1 max-w-xs truncate italic">Note: "{{ $b->catatan }}"</p>
                             @endif

@@ -24,22 +24,50 @@
             <form action="{{ route('barang.store') }}" method="POST" class="space-y-6">
                 @csrf
 
-               
+                {{-- PROGRAM TUJUAN --}}
+                <div class="bg-white rounded-2xl border border-slate-200/60 p-6 shadow-sm space-y-4">
+                    <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">🎯 Program Tujuan</h3>
+
+                    @if($selectedProgram)
+                    <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-4 flex items-center gap-3">
+                        <span class="text-xl">🎯</span>
+                        <div>
+                            <p class="text-xs text-emerald-700 font-semibold">Barang ini akan dikirim untuk program:</p>
+                            <p class="text-sm font-bold text-emerald-900">{{ $selectedProgram->judul }}</p>
+                        </div>
+                    </div>
+                    @endif
+
+                    <div class="flex flex-col space-y-1.5">
+                        <label class="text-xs font-semibold text-slate-700">
+                            {{ $selectedProgram ? 'Ganti Program (opsional)' : 'Pilih Program yang Ingin Dibantu' }}
+                        </label>
+                        <select name="program_donasi_id" class="w-full text-sm bg-slate-50/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:border-emerald-600 focus:bg-white transition" required>
+                            <option value="">-- Pilih Program --</option>
+                            @foreach($programs as $p)
+                                <option value="{{ $p->id }}" {{ (old('program_donasi_id', $selectedProgram->id ?? '')) == $p->id ? 'selected' : '' }}>
+                                    {{ $p->judul }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
                 {{-- KATEGORI --}}
-<div class="bg-white rounded-2xl border border-slate-200/60 p-6 shadow-sm space-y-4">
-    <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">📋 Kategori Barang</h3>
-    <div class="flex flex-col space-y-1.5">
-        <label class="text-xs font-semibold text-slate-700">Pilih Kategori Logistik</label>
-        <select name="kategori" class="w-full text-sm bg-slate-50/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:border-emerald-600 focus:bg-white transition" required>
-            <option value="">-- Pilih Kategori --</option>
-            <option value="Sembako"> Sembako / Bahan Pangan</option>
-            <option value="Pakaian"> Pakaian Layak Pakai</option>
-            <option value="Obat-obatan"> Obat-obatan & Medis</option>
-            <option value="Perlengkapan Bayi"> Perlengkapan Bayi & Anak</option>
-            <option value="Lainnya"> Logistik Lainnya</option>
-        </select>
-    </div>
-</div>
+                <div class="bg-white rounded-2xl border border-slate-200/60 p-6 shadow-sm space-y-4">
+                    <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">📋 Kategori Barang</h3>
+                    <div class="flex flex-col space-y-1.5">
+                        <label class="text-xs font-semibold text-slate-700">Pilih Kategori Logistik</label>
+                        <select name="kategori" class="w-full text-sm bg-slate-50/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:border-emerald-600 focus:bg-white transition" required>
+                            <option value="">-- Pilih Kategori --</option>
+                            <option value="Sembako"> Sembako / Bahan Pangan</option>
+                            <option value="Pakaian"> Pakaian Layak Pakai</option>
+                            <option value="Obat-obatan"> Obat-obatan & Medis</option>
+                            <option value="Perlengkapan Bayi"> Perlengkapan Bayi & Anak</option>
+                            <option value="Lainnya"> Logistik Lainnya</option>
+                        </select>
+                    </div>
+                </div>
 
                 {{-- LIST BARANG --}}
                 <div class="bg-white rounded-2xl border border-slate-200/60 p-6 shadow-sm space-y-4">
@@ -151,7 +179,5 @@
             btn.closest('.grid').remove();
         }
     }
-
-    
     </script>
 @endsection

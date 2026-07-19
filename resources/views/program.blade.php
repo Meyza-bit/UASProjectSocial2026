@@ -193,7 +193,7 @@
                         </div>
                         
                         <div class="flex items-center gap-1.5">
-                            <a href="{{ Route::has('barang.create') ? route('barang.create') : '#' }}" class="bg-white hover:bg-slate-50 text-emerald-800 border border-slate-200 px-3 py-2 rounded-xl text-[11px] font-bold transition shadow-sm whitespace-nowrap">
+                            <a href="{{ route('barang.create', ['program' => $item->id]) }}" class="bg-white hover:bg-slate-50 text-emerald-800 border border-slate-200 px-3 py-2 rounded-xl text-[11px] font-bold transition shadow-sm whitespace-nowrap">
                                 Donasi Barang
                             </a>
                             <a href="{{ route('donasi.create', ['program' => $item->id]) }}" class="bg-emerald-800 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-[11px] font-bold transition shadow-sm whitespace-nowrap">

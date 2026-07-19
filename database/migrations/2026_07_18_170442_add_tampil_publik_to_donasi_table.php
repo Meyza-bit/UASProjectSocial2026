@@ -9,14 +9,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('donasi_dana', function (Blueprint $table) {
-            $table->string('bukti_pembayaran')->nullable()->after('metode_bayar');
+            $table->boolean('tampil_publik')->default(true)->after('status');
+        });
+
+        Schema::table('donasi_barang', function (Blueprint $table) {
+            $table->boolean('tampil_publik')->default(true)->after('status');
         });
     }
 
     public function down(): void
     {
         Schema::table('donasi_dana', function (Blueprint $table) {
-            $table->dropColumn('bukti_pembayaran');
+            $table->dropColumn('tampil_publik');
+        });
+
+        Schema::table('donasi_barang', function (Blueprint $table) {
+            $table->dropColumn('tampil_publik');
         });
     }
 };

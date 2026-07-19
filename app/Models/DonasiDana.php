@@ -20,12 +20,14 @@ class DonasiDana extends Model
         'pesan',
         'anonim',
         'status',
-        'bukti_pembayaran'
+        'bukti_pembayaran',
+        'tampil_publik',
     ];
 
     protected $casts = [
         'nominal' => 'integer',
         'anonim' => 'boolean',
+        'tampil_publik' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
@@ -43,5 +45,11 @@ class DonasiDana extends Model
     public function targetPenerima()
     {
         return $this->belongsTo(TargetPenerima::class, 'id_target', 'id_target');
+    }
+
+    // Filter yang boleh ditampilkan ke publik
+    public function scopeTampilPublik($query)
+    {
+        return $query->where('tampil_publik', true);
     }
 }
