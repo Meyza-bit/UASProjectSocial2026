@@ -9,8 +9,7 @@ class DonasiBarang extends Model
 {
     use HasFactory;
 
-    // UBAH BARIS INI: Hilangkan huruf 's' di belakangnya
-    protected $table = 'donasi_barang';
+    protected $table = 'donasi_barangs';
 
     protected $fillable = [
         'program_donasi_id',

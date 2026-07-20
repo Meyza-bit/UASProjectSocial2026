@@ -12,7 +12,7 @@ return new class extends Migration
             $table->boolean('tampil_publik')->default(true)->after('status');
         });
 
-        Schema::table('donasi_barang', function (Blueprint $table) {
+        Schema::table('donasi_barangs', function (Blueprint $table) {
             $table->boolean('tampil_publik')->default(true)->after('status');
         });
     }
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->dropColumn('tampil_publik');
         });
 
-        Schema::table('donasi_barang', function (Blueprint $table) {
+        Schema::table('donasi_barangs', function (Blueprint $table) {
             $table->dropColumn('tampil_publik');
         });
     }
