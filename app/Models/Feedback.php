@@ -8,15 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Feedback extends Model
 {
     use HasFactory;
+
     protected $table = 'feedbacks';
 
     protected $fillable = [
+        'user_id',
+        'program_donasi_id',
+        'judul',
         'nama',
         'anonim',
         'peran',
-        'rating',
         'kategori',
         'isi',
+        'rating',
         'verified',
     ];
 
@@ -26,7 +30,11 @@ class Feedback extends Model
         'rating'   => 'integer',
     ];
 
-    // Label kategori yang enak dibaca (dipakai di kartu ulasan)
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function getKategoriLabelAttribute(): string
     {
         return match ($this->kategori) {

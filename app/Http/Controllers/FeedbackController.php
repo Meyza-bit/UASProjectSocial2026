@@ -8,12 +8,8 @@ use Illuminate\Validation\Rule;
 
 class FeedbackController extends Controller
 {
-    /**
-     * Halaman Feedback: rangkuman kepuasan + form + dinding ulasan publik.
-     */
     public function index(Request $request)
     {
-        // ---- Query dinding ulasan publik (dengan search & filter) ----
         $query = Feedback::query()->latest();
 
         if ($request->filled('q')) {
@@ -30,7 +26,6 @@ class FeedbackController extends Controller
 
         $feedbacks = $query->paginate(8)->withQueryString();
 
-        // ---- Rangkuman kepuasan publik (dihitung dari SELURUH data, bukan hasil filter) ----
         $totalFeedback = Feedback::count();
         $avgRating     = $totalFeedback ? round(Feedback::avg('rating'), 1) : 0;
 
@@ -52,9 +47,6 @@ class FeedbackController extends Controller
         ));
     }
 
-    /**
-     * Simpan feedback baru dari form, lalu redirect balik + pesan sukses.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -69,13 +61,14 @@ class FeedbackController extends Controller
         $anonim = $request->boolean('anonim');
 
         Feedback::create([
+            'user_id'  => auth()->id(),
             'nama'     => $anonim ? null : $validated['nama'],
             'anonim'   => $anonim,
             'peran'    => $validated['peran'],
             'rating'   => $validated['rating'],
             'kategori' => $validated['kategori'],
             'isi'      => $validated['isi'],
-            'verified' => false, // biar admin yang verifikasi manual kalau perlu
+            'verified' => false,
         ]);
 
         return redirect()

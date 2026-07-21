@@ -59,4 +59,42 @@ class TransparansiController extends Controller
             'totalDonasiBarang'
         ));
     }
+
+    /**
+     * Halaman admin: kelola donasi mana yang boleh tampil di transparansi publik
+     */
+    public function admin()
+{
+        $dana = DonasiDana::with(['user', 'program'])
+            ->where('status', 'verified')
+            ->latest()
+            ->paginate(20, ['*'], 'dana_page');
+
+         $barang = DonasiBarang::with(['programDonasi', 'itemBarang'])
+            ->diterima()
+            ->latest()
+            ->paginate(20, ['*'], 'barang_page');
+
+    return view('admin.transparansi', compact('dana', 'barang'));
+}
+
+    /**
+     * Toggle status tampil_publik untuk donasi dana
+     */
+    public function toggleDana(DonasiDana $donasi)
+    {
+        $donasi->update(['tampil_publik' => ! $donasi->tampil_publik]);
+
+        return back()->with('success', 'Status tampilan donasi dana berhasil diperbarui.');
+    }
+
+    /**
+     * Toggle status tampil_publik untuk donasi barang
+     */
+    public function toggleBarang(DonasiBarang $barang)
+    {
+        $barang->update(['tampil_publik' => ! $barang->tampil_publik]);
+
+        return back()->with('success', 'Status tampilan donasi barang berhasil diperbarui.');
+    }
 }

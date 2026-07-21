@@ -9,7 +9,6 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\TransparansiController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\ProgramDonasiController;
 use App\Http\Controllers\Admin\PenyaluranDanaController;
 use App\Http\Controllers\Admin\PenyaluranBarangController;

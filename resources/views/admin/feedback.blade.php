@@ -41,24 +41,19 @@
                         <td class="p-4 pl-6 align-top">
                             <div class="font-bold text-slate-900 text-sm flex items-center gap-1.5 whitespace-nowrap">
                                 <span class="text-base">👤</span>
-                                {{ $fb->nama ?? 'Anonim' }}
+                                {{ $fb->user->name ?? 'Anonim' }}
                             </div>
-                            @if(isset($fb->email))
-                            <div class="text-[10px] text-slate-400 mt-0.5 font-mono whitespace-nowrap">
-                                {{ $fb->email }}
-                            </div>
-                            @endif
-                            @if(isset($fb->created_at))
                             <div class="text-[9px] text-slate-400 mt-1 whitespace-nowrap">
                                 📅 {{ $fb->created_at->format('d M Y, H:i') }}
                             </div>
-                            @endif
                         </td>
                         
                         {{-- KOLOM 2: ISI KOMENTAR --}}
                         <td class="p-4 text-slate-600 min-w-[300px]">
-                            <div class="bg-slate-50/80 rounded-xl p-3 border border-slate-100 text-[11px] leading-relaxed">
-                                {{ $fb->komentar }}
+                            <div class="bg-slate-50/80 rounded-xl p-3 border border-slate-100">
+                                <p class="font-bold text-slate-800 text-[11px] mb-1">{{ $fb->judul }}</p>
+                                <p class="text-[11px] leading-relaxed">{{ $fb->isi }}</p>
+                                <p class="text-[10px] text-amber-600 font-bold mt-1.5">⭐ {{ $fb->rating }}/5</p>
                             </div>
                         </td>
                         

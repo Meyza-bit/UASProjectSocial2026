@@ -5,54 +5,8 @@
 @section('content')
 <section class="py-12 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        
-        {{-- SECTION 1: HERO KAMPANYE DARURAT UTAMA (BANNER PALING MENDESAK) --}}
-        <div class="bg-gradient-to-br from-red-50 to-orange-50 border border-red-200/60 rounded-3xl p-6 lg:p-8 grid lg:grid-cols-12 gap-8 items-center shadow-sm">
-            <div class="lg:col-span-4 relative">
-                <span class="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider animate-pulse z-10">
-                    🚨 DARURAT MENDESAK
-                </span>
-                <img src="https://images.unsplash.com/photo-1594897030264-ab7d87efc473?q=80&w=600&auto=format&fit=crop" 
-                     alt="Darurat Bencana Kebakaran" 
-                     class="rounded-2xl h-52 w-full object-cover border border-red-100">
-            </div>
-            <div class="lg:col-span-8 space-y-4">
-                <div class="flex items-center gap-2 text-xs font-bold text-red-700">
-                    <span>📍 Siantan Hulu, Pontianak Utara</span>
-                    <span>•</span>
-                    <span>Waktu Tersisa: 2 Hari Lagi</span>
-                </div>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight">
-                    Bantuan Logistik & Pakaian Layak Pakai Korban Kebakaran Pemukiman Siantan
-                </h2>
-                <p class="text-sm text-slate-600 max-w-2xl leading-relaxed">
-                    Lebih dari 15 kepala keluarga kehilangan tempat tinggal akibat kebakaran hebat kemarin malam. Saat ini mereka sangat membutuhkan pakaian balita, tenda darurat, and makanan siap saji.
-                </p>
-                <div class="pt-2 flex flex-col sm:flex-row items-center gap-3">
-                    <div class="w-full sm:w-64 space-y-1">
-                        <div class="w-full bg-slate-200 rounded-full h-2">
-                            <div class="bg-red-600 h-2 rounded-full" style="width: 75%"></div>
-                        </div>
-                        <div class="flex justify-between text-xs font-bold text-slate-500">
-                            <span>Terkumpul: <strong class="text-red-700">Rp 15.200.000</strong></span>
-                            <span>75%</span>
-                        </div>
-                    </div>
-                    
-                    {{-- Tombol Aksi Kanan Banner --}}
-                    <div class="flex items-center gap-2 w-full sm:w-auto">
-                        <a href="{{ Route::has('donasi.create') ? route('donasi.create') : '#' }}" class="flex-1 sm:flex-none bg-red-600 hover:bg-red-700 text-white text-center text-xs font-bold px-5 py-3 rounded-xl transition shadow-md whitespace-nowrap">
-                            Donasi Dana
-                        </a>
-                        <a href="{{ Route::has('barang.create') ? route('barang.create') : '#' }}" class="flex-1 sm:flex-none bg-white hover:bg-slate-100 text-red-700 border border-red-200 text-center text-xs font-bold px-5 py-3 rounded-xl transition shadow-sm whitespace-nowrap">
-                            Donasi Barang
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        {{-- SECTION 2: HEADER KATALOG & FILTER KATEGORI --}}
+        {{-- HEADER KATALOG & FILTER KATEGORI --}}
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-5">
             <div>
                 <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Daftar Program yang Membutuhkan</h1>
@@ -72,83 +26,7 @@
             </div>
         </div>
 
-        {{-- PHP MANUAL DUMMY DATA --}}
-        @php
-            $daftar_kampanye = [
-                // --- KATEGORI: PANTI SOSIAL ---
-                [
-                    'judul' => 'Patungan Sembako & Kasur Layak untuk Anak-Anak Panti Asuhan Ahmad Yani',
-                    'kategori' => 'Panti Sosial',
-                    'lokasi' => '📍 Sungai Bangkong, Pontianak Kota',
-                    'tag' => '🔥 Hampir Terpenuhi',
-                    'tag_color' => 'bg-amber-500',
-                    'img' => 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=600&auto=format&fit=crop',
-                    'terkumpul' => 'Rp 8.400.000',
-                    'target' => 'Rp 10.000.000',
-                    'persen' => '84%'
-                ],
-                [
-                    'judul' => 'Renovasi Atap Bocor & Fasilitas Belajar Santri Panti Asuhan Amal Mulia',
-                    'kategori' => 'Panti Sosial',
-                    'lokasi' => '📍 Kubu Raya, Kalimantan Barat',
-                    'tag' => '✨ Penyaluran Rutin',
-                    'tag_color' => 'bg-emerald-700',
-                    'img' => 'https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=600&auto=format&fit=crop',
-                    'terkumpul' => 'Rp 4.100.000',
-                    'target' => 'Rp 15.000.000',
-                    'persen' => '27%'
-                ],
-                [
-                    'judul' => 'Peduli Gizi Balita Terlantar: Pengadaan Susu & Vitamin Panti Asuhan Harapan Kita',
-                    'kategori' => 'Panti Sosial',
-                    'lokasi' => '📍 Pontianak Barat, Kalbar',
-                    'tag' => '❤️ Prioritas',
-                    'tag_color' => 'bg-pink-600',
-                    'img' => 'https://images.unsplash.com/photo-1484662020986-75935d2ebc66?q=80&w=600&auto=format&fit=crop',
-                    'terkumpul' => 'Rp 12.300.000',
-                    'target' => 'Rp 30.000.000',
-                    'persen' => '41%'
-                ],
-
-                // --- KATEGORI: BENCANA ALAM ---
-                [
-                    'judul' => 'Darurat Banjir Bandang Landak: Pengadaan Air Bersih dan Obat-Obatan',
-                    'kategori' => 'Bencana Alam',
-                    'lokasi' => '📍 Ngabang, Kabupaten Landak',
-                    'tag' => '🚨 Butuh Cepat',
-                    'tag_color' => 'bg-red-600',
-                    'img' => 'https://images.unsplash.com/photo-1547683905-f686c993aae5?q=80&w=600&auto=format&fit=crop',
-                    'terkumpul' => 'Rp 24.500.000',
-                    'target' => 'Rp 50.000.000',
-                    'persen' => '49%'
-                ],
-                [
-                    'judul' => 'Bantuan Kebakaran Hutan & Lahan: Pengadaan Masker Medis dan Oksigen Portabel',
-                    'kategori' => 'Bencana Alam',
-                    'lokasi' => '📍 Sungai Raya, Kubu Raya',
-                    'tag' => '💨 Kondisi Siaga',
-                    'slate-700' => 'bg-slate-700',
-                    'tag_color' => 'bg-slate-700',
-                    'img' => 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=600&auto=format&fit=crop',
-                    'terkumpul' => 'Rp 6.200.000',
-                    'target' => 'Rp 20.000.000',
-                    'persen' => '31%'
-                ],
-                [
-                    'judul' => 'Dapur Umum untuk Korban Terdampak Banjir Luapan Sungai Kapuas Pontianak',
-                    'kategori' => 'Bencana Alam',
-                    'lokasi' => '📍 Tambelan Sampit, Pontianak Timur',
-                    'tag' => '🍲 Logistik',
-                    'tag_color' => 'bg-orange-600',
-                    'img' => 'https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=600&auto=format&fit=crop',
-                    'terkumpul' => 'Rp 18.900.000',
-                    'target' => 'Rp 25.000.000',
-                    'persen' => '75%'
-                ]
-            ];
-        @endphp
-
-       {{-- SECTION 3: GRID KATALOG PROGRAM DONASI --}}
+        {{-- GRID KATALOG PROGRAM DONASI --}}
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8" id="kampanye-grid">
             @forelse($programs as $item)
             <div class="card-kampanye bg-white rounded-2xl overflow-hidden border border-slate-200/60 shadow-sm hover:shadow-lg transition flex flex-col group" 
